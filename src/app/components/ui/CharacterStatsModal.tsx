@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import Image from 'next/image'
 import { Dialog, DialogContent } from "@/app/components/ui/dialog"
 import { Button } from "@/app/components/ui/button"
@@ -44,7 +44,7 @@ const CharacterStatsModal: React.FC<CharacterStatsModalProps> = ({ isOpen, onClo
   const [plusLevel, setPlusLevel] = useState(0)
   const [stats, setStats] = useState(character.baseStats)
 
-  const calculateStats = (baseStats: typeof character.baseStats, level: number, plusLevel: number, type: CharacterType) => {
+  const calculateStats = useCallback((baseStats: typeof character.baseStats, level: number, plusLevel: number, type: CharacterType) => {
     const totalLevel = level + plusLevel
     let multiplier = 1
 
@@ -110,12 +110,12 @@ const CharacterStatsModal: React.FC<CharacterStatsModalProps> = ({ isOpen, onClo
       dps: Math.round(baseStats.dps * multiplier),
       afterDelay: baseStats.afterDelay, // 이 줄을 추가
     };
-  }
+  }, []);
 
   useEffect(() => {
     const newStats = calculateStats(character.baseStats, level, plusLevel, character.type);
     setStats(newStats);
-  }, [level, plusLevel, character.baseStats, character.type]);
+  }, [level, plusLevel, character.baseStats, character.type, calculateStats]);
 
   const handleLevelChange = (newValue: string | number) => {
     const stringValue = String(newValue);
