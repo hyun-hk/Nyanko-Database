@@ -1,25 +1,25 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback, CSSProperties } from 'react'
 import Image from 'next/image'
 import { Dialog, DialogContent } from "@/app/components/ui/dialog"
 import { Button } from "@/app/components/ui/button"
 import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { StaticImageData } from 'next/image'
 
 // 이 스타일 객체를 컴포넌트 외부에 정의합니다
-const hideNumberInputArrows = {
+const hideNumberInputArrows: CSSProperties = {
   WebkitAppearance: 'none',
   MozAppearance: 'textfield',
-  appearance: 'textfield',
-}
+};
 
-type CharacterType = 'basic' | 'ex' | 'rare_gacha' | 'mooth' | 'rare' | 'super_rare' | 'ultra_super_rare' | 'madness'
+export type CharacterType = 'basic' | 'ex' | 'rare_gacha' | 'bahamut' | 'rare' | 'super_rare' | 'ultra_super_rare' | 'madness'
 
-interface CharacterStatsModalProps {
+export interface CharacterStatsModalProps {
   isOpen: boolean
   onClose: () => void
   character: {
     name: string
     code: string
-    image: string
+    image: StaticImageData  // string에서 StaticImageData로 변경
     type: CharacterType
     baseStats: {
       hp: number
@@ -31,9 +31,9 @@ interface CharacterStatsModalProps {
       range: number
       hitBack: number
       cost: number
-      afterDelay: number
+      cooldown?: number
+      afterDelay?: number
       finishTime: number
-      cooldown: number
     }
     obtainedFrom: string
   }
@@ -45,8 +45,8 @@ const CharacterStatsModal: React.FC<CharacterStatsModalProps> = ({ isOpen, onClo
   const [stats, setStats] = useState(character.baseStats)
 
   const calculateStats = useCallback((baseStats: typeof character.baseStats, level: number, plusLevel: number, type: CharacterType) => {
-    const totalLevel = level + plusLevel
-    let multiplier = 1
+    const totalLevel = level + plusLevel;
+    let multiplier = 1;
 
     switch (type) {
       case 'basic':
@@ -110,7 +110,7 @@ const CharacterStatsModal: React.FC<CharacterStatsModalProps> = ({ isOpen, onClo
       dps: Math.round(baseStats.dps * multiplier),
       afterDelay: baseStats.afterDelay, // 이 줄을 추가
     };
-  }, []);
+  }, [character]); // character를 의존성 배열에 추가
 
   useEffect(() => {
     const newStats = calculateStats(character.baseStats, level, plusLevel, character.type);

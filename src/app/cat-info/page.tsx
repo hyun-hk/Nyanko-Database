@@ -8,7 +8,7 @@ import { Input } from "@/app/components/ui/input"
 import { Button } from "@/app/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/app/components/ui/dialog"
 import { Filter, Menu, ArrowLeft } from 'lucide-react'
-import CharacterStatsModal from '@/app/components/ui/CharacterStatsModal'
+import CharacterStatsModal, { CharacterStatsModalProps, CharacterType } from '@/app/components/ui/CharacterStatsModal'
 import logo from '@/app/assets/logo.png'
 import cat1 from '@/app/assets/001_1.png'
 import cat2 from '@/app/assets/002_1.png'
@@ -21,12 +21,11 @@ import cat8 from '@/app/assets/008_1.png'
 import cat9 from '@/app/assets/009_1.png'
 import cat10 from '@/app/assets/0010_1.png'
 import { StaticImageData } from 'next/image';
-import { CharacterType } from '@/app/components/ui/CharacterStatsModal';
 
 interface CatData {
   name: string;
   code: string;
-  image: StaticImageData;  // string에서 StaticImageData로 변경
+  image: StaticImageData;
   type: CharacterType;
   baseStats: {
     hp: number;
@@ -34,14 +33,15 @@ interface CatData {
     dps: number;
     attackSpeed: number;
     initialDelay: number;
-    movementSpeed: number;  // 추가
-    range: number;  // 추가
-    hitBack: number;  // 추가
-    cost: number;  // 추가
+    movementSpeed: number;
+    range: number;
+    hitBack: number;
+    cost: number;
     cooldown?: number;
-    afterDelay?: number; // 옵셔널로 추가
-    finishTime: number; // 이 줄을 추가
+    afterDelay?: number;
+    finishTime: number;
   };
+  obtainedFrom: string;
 }
 
 export default function CatInfo() {
@@ -83,16 +83,16 @@ export default function CatInfo() {
   }
 
   const catData: CatData[] = [
-    { name: "고양이", code: "CAT_001", image: cat1, type: "basic" as CharacterType, baseStats: { hp: 250, attack: 400, dps: 400, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, finishTime: 0.33 } },
-    { name: "탱크 고양이", code: "CAT_002", image: cat2, type: "basic" as CharacterType, baseStats: { hp: 600, attack: 200, dps: 200, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, finishTime: 0.33 } },
-    { name: "배틀 고양이", code: "CAT_003", image: cat3, type: "basic" as CharacterType, baseStats: { hp: 300, attack: 600, dps: 600, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, finishTime: 0.33 } },
-    { name: "징글 고양이", code: "CAT_004", image: cat4, type: "basic" as CharacterType, baseStats: { hp: 350, attack: 450, dps: 450, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, finishTime: 0.33 } },
-    { name: "황소 고양이", code: "CAT_005", image: cat5, type: "basic" as CharacterType, baseStats: { hp: 500, attack: 300, dps: 300, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, finishTime: 0.33 } },
-    { name: "고양이 새", code: "CAT_006", image: cat6, type: "basic" as CharacterType, baseStats: { hp: 250, attack: 550, dps: 550, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, finishTime: 0.33 } },
-    { name: "고양이 피쉬", code: "CAT_007", image: cat7, type: "basic" as CharacterType, baseStats: { hp: 450, attack: 350, dps: 350, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, finishTime: 0.33 } },
-    { name: "고양이 도마뱀", code: "CAT_008", image: cat8, type: "basic" as CharacterType, baseStats: { hp: 550, attack: 250, dps: 250, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, finishTime: 0.33 } },
-    { name: "거신 고양이", code: "CAT_009", image: cat9, type: "basic" as CharacterType, baseStats: { hp: 700, attack: 100, dps: 100, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, finishTime: 0.33 } },
-    { name: "고양이 초인", code: "CAT_644", image: cat10, type: "basic" as CharacterType, baseStats: { hp: 800, attack: 800, dps: 800, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, finishTime: 0.33 } },
+    { name: "고양이", code: "CAT_001", image: cat1, type: "basic" as CharacterType, baseStats: { hp: 250, attack: 400, dps: 400, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, finishTime: 0.33 }, obtainedFrom: "기본 캐릭터" },
+    { name: "탱크 고양이", code: "CAT_002", image: cat2, type: "basic" as CharacterType, baseStats: { hp: 600, attack: 200, dps: 200, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, finishTime: 0.33 }, obtainedFrom: "기본 캐릭터" },
+    { name: "배틀 고양이", code: "CAT_003", image: cat3, type: "basic" as CharacterType, baseStats: { hp: 300, attack: 600, dps: 600, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, finishTime: 0.33 }, obtainedFrom: "기본 캐릭터" },
+    { name: "징글 고양이", code: "CAT_004", image: cat4, type: "basic" as CharacterType, baseStats: { hp: 350, attack: 450, dps: 450, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, finishTime: 0.33 }, obtainedFrom: "기본 캐릭터" },
+    { name: "황소 고양이", code: "CAT_005", image: cat5, type: "basic" as CharacterType, baseStats: { hp: 500, attack: 300, dps: 300, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, finishTime: 0.33 }, obtainedFrom: "기본 캐릭터" },
+    { name: "고양이 새", code: "CAT_006", image: cat6, type: "basic" as CharacterType, baseStats: { hp: 250, attack: 550, dps: 550, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, finishTime: 0.33 }, obtainedFrom: "기본 캐릭터" },
+    { name: "고양이 피쉬", code: "CAT_007", image: cat7, type: "basic" as CharacterType, baseStats: { hp: 450, attack: 350, dps: 350, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, finishTime: 0.33 }, obtainedFrom: "기본 캐릭터" },
+    { name: "고양이 도마뱀", code: "CAT_008", image: cat8, type: "basic" as CharacterType, baseStats: { hp: 550, attack: 250, dps: 250, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, finishTime: 0.33 }, obtainedFrom: "기본 캐릭터" },
+    { name: "거신 고양이", code: "CAT_009", image: cat9, type: "basic" as CharacterType, baseStats: { hp: 700, attack: 100, dps: 100, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, finishTime: 0.33 }, obtainedFrom: "기본 캐릭터" },
+    { name: "고양이 초인", code: "CAT_644", image: cat10, type: "basic" as CharacterType, baseStats: { hp: 800, attack: 800, dps: 800, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, finishTime: 0.33 }, obtainedFrom: "기본 캐릭터" },
   ]
 
   return (
@@ -224,7 +224,7 @@ export default function CatInfo() {
         <CharacterStatsModal
           isOpen={true}
           onClose={() => setSelectedCharacter(null)}
-          character={catData[selectedCharacter]}
+          character={catData[selectedCharacter] as CharacterStatsModalProps['character']}
         />
       )}
     </div>
