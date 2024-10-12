@@ -35,7 +35,7 @@ yarn dev
 
 이 패키지들을 설치하려면 다음 명령어를 실행하세요:
 ```bash
-yarn add next react react-dom typescript tailwindcss @radix-ui/react-label @radix-ui/react-radio-group @radix-ui/react-dialog @radix-ui/react-dropdown-menu lucide-react class-variance-authority tailwind-merge clsx
+yarn add next react react-dom typescript tailwindcss @radix-ui/react-label @radix-ui/react-radio-group @radix-ui/react-dialog @radix-ui/react-dropdown-menu lucide-react class-variance-authority tailwind-merge clsx shard
 ```
 
 또한 필요한 개발 의존성 패키지들도 설치해야 합니다:
