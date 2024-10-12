@@ -3,17 +3,52 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useState } from 'react'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/app/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/app/components/ui/card"
 import { Input } from "@/app/components/ui/input"
 import { Button } from "@/app/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/app/components/ui/dialog"
-import { Filter, Menu, Info, Database } from 'lucide-react'
+import { Filter, Menu, ArrowLeft } from 'lucide-react'
+import CharacterStatsModal from '@/app/components/ui/CharacterStatsModal'
 import logo from '@/app/assets/logo.png'
+import cat1 from '@/app/assets/001_1.png'
+import cat2 from '@/app/assets/002_1.png'
+import cat3 from '@/app/assets/003_1.png'
+import cat4 from '@/app/assets/004_1.png'
+import cat5 from '@/app/assets/005_1.png'
+import cat6 from '@/app/assets/006_1.png'
+import cat7 from '@/app/assets/007_1.png'
+import cat8 from '@/app/assets/008_1.png'
+import cat9 from '@/app/assets/009_1.png'
+import cat10 from '@/app/assets/0010_1.png'
+import { StaticImageData } from 'next/image';
+import { CharacterType } from '@/app/components/ui/CharacterStatsModal';
 
-export default function LandingPage() {
+interface CatData {
+  name: string;
+  code: string;
+  image: StaticImageData;  // string에서 StaticImageData로 변경
+  type: CharacterType;
+  baseStats: {
+    hp: number;
+    attack: number;
+    dps: number;
+    attackSpeed: number;
+    initialDelay: number;
+    movementSpeed: number;  // 추가
+    range: number;  // 추가
+    hitBack: number;  // 추가
+    cost: number;  // 추가
+    cooldown?: number;
+    afterDelay?: number; // 옵셔널로 추가
+    finishTime: number; // 이 줄을 추가
+  };
+}
+
+export default function CatInfo() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [selectedRarity, setSelectedRarity] = useState<string | null>(null)
   const [selectedTargets, setSelectedTargets] = useState<string[]>([])
+  const [selectedCharacter, setSelectedCharacter] = useState<number | null>(null)
 
   const rarityOptions = [
     { value: "basic", label: "기본 캐릭터" },
@@ -21,7 +56,7 @@ export default function LandingPage() {
     { value: "rare", label: "레어" },
     { value: "super-rare", label: "슈퍼 레어" },
     { value: "ultra-rare", label: "울트라 슈퍼 레어" },
-    { value: "legend-rare", label: "레전드 레어" },
+    { value: "legend-rare", label: "전드 레어" },
   ]
 
   const targetOptions = [
@@ -47,14 +82,31 @@ export default function LandingPage() {
     )
   }
 
+  const catData: CatData[] = [
+    { name: "고양이", code: "CAT_001", image: cat1, type: "basic" as CharacterType, baseStats: { hp: 250, attack: 400, dps: 400, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, finishTime: 0.33 } },
+    { name: "탱크 고양이", code: "CAT_002", image: cat2, type: "basic" as CharacterType, baseStats: { hp: 600, attack: 200, dps: 200, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, finishTime: 0.33 } },
+    { name: "배틀 고양이", code: "CAT_003", image: cat3, type: "basic" as CharacterType, baseStats: { hp: 300, attack: 600, dps: 600, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, finishTime: 0.33 } },
+    { name: "징글 고양이", code: "CAT_004", image: cat4, type: "basic" as CharacterType, baseStats: { hp: 350, attack: 450, dps: 450, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, finishTime: 0.33 } },
+    { name: "황소 고양이", code: "CAT_005", image: cat5, type: "basic" as CharacterType, baseStats: { hp: 500, attack: 300, dps: 300, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, finishTime: 0.33 } },
+    { name: "고양이 새", code: "CAT_006", image: cat6, type: "basic" as CharacterType, baseStats: { hp: 250, attack: 550, dps: 550, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, finishTime: 0.33 } },
+    { name: "고양이 피쉬", code: "CAT_007", image: cat7, type: "basic" as CharacterType, baseStats: { hp: 450, attack: 350, dps: 350, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, finishTime: 0.33 } },
+    { name: "고양이 도마뱀", code: "CAT_008", image: cat8, type: "basic" as CharacterType, baseStats: { hp: 550, attack: 250, dps: 250, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, finishTime: 0.33 } },
+    { name: "거신 고양이", code: "CAT_009", image: cat9, type: "basic" as CharacterType, baseStats: { hp: 700, attack: 100, dps: 100, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, finishTime: 0.33 } },
+    { name: "고양이 초인", code: "CAT_644", image: cat10, type: "basic" as CharacterType, baseStats: { hp: 800, attack: 800, dps: 800, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, finishTime: 0.33 } },
+  ]
+
   return (
     <div className="min-h-screen bg-gray-100 text-gray-900">
       <header className="bg-white shadow-md">
         <div className="container mx-auto py-4 px-4 flex items-center justify-between">
           <div className="flex items-center">
+            <Link href="/" className="flex items-center">
+              <ArrowLeft className="h-6 w-6 mr-2" />
+              <span className="sr-only">Back to Home</span>
+            </Link>
             <Image
               src={logo}
-              alt="냥코대전쟁 로고"
+              alt="코대전쟁 로고"
               width={150}
               height={100}
             />
@@ -70,6 +122,8 @@ export default function LandingPage() {
       </header>
 
       <main className="container mx-auto py-8 px-4">
+        <h1 className="text-3xl font-bold mb-6">냥코 정보</h1>
+        
         <div className={`sm:flex justify-between items-center mb-6 ${isMenuOpen ? 'block' : 'hidden sm:flex'}`}>
           <Dialog>
             <DialogTrigger asChild>
@@ -88,7 +142,7 @@ export default function LandingPage() {
                     {rarityOptions.map((option) => (
                       <Button
                         key={option.value}
-                        onClick={() => toggleRarity(option.value)}
+                        onClick={() =>   toggleRarity(option.value)}
                         variant={selectedRarity === option.value ? "default" : "outline"}
                         className={`
                           ${selectedRarity === option.value
@@ -134,55 +188,45 @@ export default function LandingPage() {
           />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <Card className="bg-white shadow-lg hover:shadow-xl transition-shadow duration-300">
-            <CardHeader>
-              <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center mb-4">
-                <Info className="h-6 w-6 text-white" />
-              </div>
-              <CardTitle className="text-xl font-bold">냥코 정보</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <CardDescription>모든 냥코 캐릭터의 상세 정보와 능력치</CardDescription>
-            </CardContent>
-            <CardFooter>
-              <Link href="/cat-info" className="w-full">
-                <Button className="w-full bg-black text-white hover:bg-gray-800">이동하기</Button>
-              </Link>
-            </CardFooter>
-          </Card>
-
-          <Card className="bg-white shadow-lg hover:shadow-xl transition-shadow duration-300">
-            <CardHeader>
-              <div className="w-12 h-12 bg-gray-800 rounded-full flex items-center justify-center mb-4">
-                <Info className="h-6 w-6 text-white" />
-              </div>
-              <CardTitle className="text-xl font-bold">적 캐릭터 정보</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <CardDescription>모든 적 캐릭터의 특성과 약점 분석</CardDescription>
-            </CardContent>
-            <CardFooter>
-              <Button className="w-full bg-black text-white hover:bg-gray-800">이동하기</Button>
-            </CardFooter>
-          </Card>
-
-          <Card className="bg-white shadow-lg hover:shadow-xl transition-shadow duration-300">
-            <CardHeader>
-              <div className="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center mb-4">
-                <Database className="h-6 w-6 text-white" />
-              </div>
-              <CardTitle className="text-xl font-bold">냥코 스테이지</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <CardDescription>각 스이지별 구성과 클리어 전략</CardDescription>
-            </CardContent>
-            <CardFooter>
-              <Button className="w-full bg-black text-white hover:bg-gray-800">이동하기</Button>
-            </CardFooter>
-          </Card>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+          {catData.map((cat, index) => (
+            <Card 
+              key={index}
+              className="bg-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 hover:z-10"
+            >
+              <CardHeader>
+                <Image
+                  src={cat.image}
+                  alt={cat.name}
+                  width={200}
+                  height={200}
+                  className="w-full h-auto"
+                />
+              </CardHeader>
+              <CardContent>
+                <CardTitle className="text-xl font-bold">{cat.name}</CardTitle>
+                <p className="text-sm text-gray-600 mt-2">코드: {cat.code}</p>
+              </CardContent>
+              <CardFooter>
+                <Button 
+                  className="w-full bg-black text-white hover:bg-gray-800"
+                  onClick={() => setSelectedCharacter(index)}
+                >
+                  스펙보기
+                </Button>
+              </CardFooter>
+            </Card>
+          ))}
         </div>
       </main>
+
+      {selectedCharacter !== null && catData[selectedCharacter] && (
+        <CharacterStatsModal
+          isOpen={true}
+          onClose={() => setSelectedCharacter(null)}
+          character={catData[selectedCharacter]}
+        />
+      )}
     </div>
   )
 }
