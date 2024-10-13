@@ -14,6 +14,10 @@ const nextConfig = {
     };
     return config;
   },
+  images: {
+    domains: ['https://hyun-hk.github.io/Nyanko-Database'],
+    unoptimized: true,
+  },
 };
 
 export default nextConfig;
