@@ -3,7 +3,7 @@ import Image from 'next/image'
 import { Dialog, DialogContent } from "@/app/components/ui/dialog"
 import { Button } from "@/app/components/ui/button"
 import { ChevronLeft, ChevronRight } from 'lucide-react'
-import { StaticImageData } from 'next/image'
+import { calculateDPS } from '@/app/lib/calculations';
 
 // 이 스타일 객체를 컴포넌트 외부에 정의합니다
 const hideNumberInputArrows: CSSProperties = {
@@ -19,9 +19,9 @@ export interface CharacterStatsModalProps {
   character: {
     name: string
     code: string
-    image: StaticImageData  // string에서 StaticImageData로 변경
+    images: string[]
     type: CharacterType
-    baseStats: {
+    stats: {
       hp: number
       attack: number
       dps: number
@@ -31,10 +31,10 @@ export interface CharacterStatsModalProps {
       range: number
       hitBack: number
       cost: number
-      cooldown?: number
-      afterDelay?: number
+      cooldown: number
+      afterDelay: number
       finishTime: number
-    }
+    }[]
     obtainedFrom: string
   }
 }
@@ -42,9 +42,10 @@ export interface CharacterStatsModalProps {
 const CharacterStatsModal: React.FC<CharacterStatsModalProps> = ({ isOpen, onClose, character }) => {
   const [level, setLevel] = useState(1)
   const [plusLevel, setPlusLevel] = useState(0)
-  const [stats, setStats] = useState(character.baseStats)
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [stats, setStats] = useState(character.stats[0]);
 
-  const calculateStats = useCallback((baseStats: typeof character.baseStats, level: number, plusLevel: number, type: CharacterType) => {
+  const calculateStats = useCallback((baseStats: typeof character.stats[0], level: number, plusLevel: number, type: CharacterType) => {
     const totalLevel = level + plusLevel;
     let multiplier = 1;
 
@@ -103,19 +104,27 @@ const CharacterStatsModal: React.FC<CharacterStatsModalProps> = ({ isOpen, onClo
         break
     }
 
+    const scaledAttack = Math.round(baseStats.attack * multiplier);
+    const scaledHp = Math.round(baseStats.hp * multiplier);
+    const scaledDps = Math.round(baseStats.dps * multiplier);
+    
+    // 실제 DPS 계산 (공격력 / 공격속도)
+    const calculatedDps = Math.round(scaledAttack / baseStats.attackSpeed);
+
     return {
       ...baseStats,
-      hp: Math.round(baseStats.hp * multiplier),
-      attack: Math.round(baseStats.attack * multiplier),
-      dps: Math.round(baseStats.dps * multiplier),
-      afterDelay: baseStats.afterDelay, // 이 줄을 추가
+      hp: scaledHp,
+      attack: scaledAttack,
+      dps: scaledDps,
+      calculatedDps: calculatedDps, // 새로 계산된 DPS
+      // 다른 스탯들은 그대로 유지
     };
   }, [character]); // character를 의존성 배열에 추가
 
   useEffect(() => {
-    const newStats = calculateStats(character.baseStats, level, plusLevel, character.type);
+    const newStats = calculateStats(character.stats[currentImageIndex], level, plusLevel, character.type);
     setStats(newStats);
-  }, [level, plusLevel, character.baseStats, character.type, calculateStats]);
+  }, [level, plusLevel, character.stats, character.type, calculateStats, currentImageIndex]);
 
   const handleLevelChange = (newValue: string | number) => {
     const stringValue = String(newValue);
@@ -161,14 +170,24 @@ const CharacterStatsModal: React.FC<CharacterStatsModalProps> = ({ isOpen, onClo
     }
   };
 
+  const nextImage = () => {
+    setCurrentImageIndex((prevIndex) => (prevIndex + 1) % character.images.length);
+  };
+
+  const prevImage = () => {
+    setCurrentImageIndex((prevIndex) => (prevIndex - 1 + character.images.length) % character.images.length);
+  };
+
+  const calculatedDPS = calculateDPS(stats.dps, level);
+
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[800px] bg-white rounded-lg shadow-lg p-6 text-black">
         <div className="grid grid-cols-2 gap-4">
           <div className="flex items-center justify-between">
-            <Button variant="ghost" size="icon"><ChevronLeft className="h-6 w-6" /></Button>
-            <h2 className="text-2xl font-bold">제 1형태</h2>
-            <Button variant="ghost" size="icon"><ChevronRight className="h-6 w-6" /></Button>
+            <Button variant="ghost" size="icon" onClick={prevImage}><ChevronLeft className="h-6 w-6" /></Button>
+            <h2 className="text-2xl font-bold">제 {currentImageIndex + 1}형태</h2>
+            <Button variant="ghost" size="icon" onClick={nextImage}><ChevronRight className="h-6 w-6" /></Button>
           </div>
           
           <div className="border rounded-lg p-4 shadow-md flex justify-center items-center bg-gradient-to-br from-white to-gray-100">
@@ -213,8 +232,8 @@ const CharacterStatsModal: React.FC<CharacterStatsModalProps> = ({ isOpen, onClo
             <div className="flex mb-4">
               <div className="mr-4">
                 <Image
-                  src={character.image}
-                  alt={character.name}
+                  src={character.images[currentImageIndex]}
+                  alt={`${character.name} - 형태 ${currentImageIndex + 1}`}
                   width={200}
                   height={200}
                   className="object-contain rounded-lg"
@@ -248,8 +267,12 @@ const CharacterStatsModal: React.FC<CharacterStatsModalProps> = ({ isOpen, onClo
                   <span>{stats.attack}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span>DPS</span>
+                  <span>기본 DPS</span>
                   <span>{stats.dps}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span>계산된 DPS</span>
+                  <span>{calculatedDPS}</span>
                 </div>
                 <hr className="my-2 border-gray-300" />
                 <div className="flex justify-between">
@@ -269,8 +292,8 @@ const CharacterStatsModal: React.FC<CharacterStatsModalProps> = ({ isOpen, onClo
                   <span>{stats.cost}원</span>
                 </div>
                 <div className="flex justify-between">
-                  <span>쿨타임</span>
-                  <span>{character.baseStats.cooldown ? character.baseStats.cooldown.toFixed(2) : '-'}초</span>
+                  <span>재생산 속도</span>
+                  <span>{stats.cooldown.toFixed(2)}초</span>
                 </div>
               </div>
             </div>
@@ -288,7 +311,7 @@ const CharacterStatsModal: React.FC<CharacterStatsModalProps> = ({ isOpen, onClo
                 </div>
                 <div className="flex justify-between">
                   <span>후딜</span>
-                  <span>{character.baseStats.afterDelay ? character.baseStats.afterDelay.toFixed(2) : '-'}초</span>
+                  <span>{stats.afterDelay.toFixed(2)}초</span>
                 </div>
                 <div className="flex justify-between">
                   <span>마무리</span>

@@ -8,7 +8,6 @@ import { Input } from "@/app/components/ui/input"
 import { Button } from "@/app/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/app/components/ui/dialog"
 import { Filter, Menu, Info, Database } from 'lucide-react'
-import logo from '@/app/assets/logo.png'
 
 export default function LandingPage() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -53,7 +52,7 @@ export default function LandingPage() {
         <div className="container mx-auto py-4 px-4 flex items-center justify-between">
           <div className="flex items-center">
             <Image
-              src={logo}
+              src="/images/logo/logo.png"
               alt="냥코대전쟁 로고"
               width={150}
               height={100}

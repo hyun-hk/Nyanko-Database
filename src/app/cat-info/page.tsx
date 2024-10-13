@@ -9,38 +9,28 @@ import { Button } from "@/app/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/app/components/ui/dialog"
 import { Filter, Menu, ArrowLeft } from 'lucide-react'
 import CharacterStatsModal, { CharacterStatsModalProps, CharacterType } from '@/app/components/ui/CharacterStatsModal'
-import logo from '@/app/assets/logo.png'
-import cat1 from '@/app/assets/001_1.png'
-import cat2 from '@/app/assets/002_1.png'
-import cat3 from '@/app/assets/003_1.png'
-import cat4 from '@/app/assets/004_1.png'
-import cat5 from '@/app/assets/005_1.png'
-import cat6 from '@/app/assets/006_1.png'
-import cat7 from '@/app/assets/007_1.png'
-import cat8 from '@/app/assets/008_1.png'
-import cat9 from '@/app/assets/009_1.png'
-import cat10 from '@/app/assets/0010_1.png'
-import { StaticImageData } from 'next/image';
+
+interface CatStats {
+  hp: number;
+  attack: number;
+  dps: number;
+  attackSpeed: number;
+  initialDelay: number;
+  movementSpeed: number;
+  range: number;
+  hitBack: number;
+  cost: number;
+  cooldown: number;
+  afterDelay: number;
+  finishTime: number;
+}
 
 interface CatData {
   name: string;
   code: string;
-  image: StaticImageData;
+  images: string[];
   type: CharacterType;
-  baseStats: {
-    hp: number;
-    attack: number;
-    dps: number;
-    attackSpeed: number;
-    initialDelay: number;
-    movementSpeed: number;
-    range: number;
-    hitBack: number;
-    cost: number;
-    cooldown?: number;
-    afterDelay?: number;
-    finishTime: number;
-  };
+  stats: CatStats[];  // 각 진화 단계별 스탯
   obtainedFrom: string;
 }
 
@@ -83,16 +73,165 @@ export default function CatInfo() {
   }
 
   const catData: CatData[] = [
-    { name: "고양이", code: "CAT_001", image: cat1, type: "basic" as CharacterType, baseStats: { hp: 250, attack: 400, dps: 400, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, finishTime: 0.33 }, obtainedFrom: "기본 캐릭터" },
-    { name: "탱크 고양이", code: "CAT_002", image: cat2, type: "basic" as CharacterType, baseStats: { hp: 600, attack: 200, dps: 200, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, finishTime: 0.33 }, obtainedFrom: "기본 캐릭터" },
-    { name: "배틀 고양이", code: "CAT_003", image: cat3, type: "basic" as CharacterType, baseStats: { hp: 300, attack: 600, dps: 600, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, finishTime: 0.33 }, obtainedFrom: "기본 캐릭터" },
-    { name: "징글 고양이", code: "CAT_004", image: cat4, type: "basic" as CharacterType, baseStats: { hp: 350, attack: 450, dps: 450, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, finishTime: 0.33 }, obtainedFrom: "기본 캐릭터" },
-    { name: "황소 고양이", code: "CAT_005", image: cat5, type: "basic" as CharacterType, baseStats: { hp: 500, attack: 300, dps: 300, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, finishTime: 0.33 }, obtainedFrom: "기본 캐릭터" },
-    { name: "고양이 새", code: "CAT_006", image: cat6, type: "basic" as CharacterType, baseStats: { hp: 250, attack: 550, dps: 550, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, finishTime: 0.33 }, obtainedFrom: "기본 캐릭터" },
-    { name: "고양이 피쉬", code: "CAT_007", image: cat7, type: "basic" as CharacterType, baseStats: { hp: 450, attack: 350, dps: 350, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, finishTime: 0.33 }, obtainedFrom: "기본 캐릭터" },
-    { name: "고양이 도마뱀", code: "CAT_008", image: cat8, type: "basic" as CharacterType, baseStats: { hp: 550, attack: 250, dps: 250, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, finishTime: 0.33 }, obtainedFrom: "기본 캐릭터" },
-    { name: "거신 고양이", code: "CAT_009", image: cat9, type: "basic" as CharacterType, baseStats: { hp: 700, attack: 100, dps: 100, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, finishTime: 0.33 }, obtainedFrom: "기본 캐릭터" },
-    { name: "고양이 초인", code: "CAT_644", image: cat10, type: "basic" as CharacterType, baseStats: { hp: 800, attack: 800, dps: 800, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, finishTime: 0.33 }, obtainedFrom: "기본 캐릭터" },
+    { 
+      name: "고양이", 
+      code: "CAT_001", 
+      images: ['/images/basic/001_1.png', '/images/basic/001_2.png', '/images/basic/001_3.png'], 
+      type: "basic" as CharacterType, 
+      stats: [
+        { hp: 250, attack: 20, dps: 16, attackSpeed: 1.23, initialDelay: 0.27, movementSpeed: 10, range: 140, hitBack: 3, cost: 75, cooldown: 2, afterDelay: 1, finishTime: 0.33 },
+        { hp: 250, attack: 20, dps: 16, attackSpeed: 1.23, initialDelay: 0.27, movementSpeed: 10, range: 140, hitBack: 3, cost: 75, cooldown: 2, afterDelay: 1, finishTime: 0.33 },
+        { hp: 500, attack: 40, dps: 32, attackSpeed: 1.23, initialDelay: 0.27, movementSpeed: 10, range: 140, hitBack: 3, cost: 75, cooldown: 2, afterDelay: 1, finishTime: 0.33 },
+      ],
+      obtainedFrom: "기본 캐릭터" 
+    },
+    { 
+      name: "탱크 고양이", 
+      code: "CAT_002", 
+      images: ['/images/basic/002_1.png', '/images/basic/002_2.png', '/images/basic/002_3.png'], 
+      type: "basic" as CharacterType, 
+      stats: [
+        { hp: 600, attack: 200, dps: 200, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 },
+        { hp: 650, attack: 225, dps: 225, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 },
+        { hp: 700, attack: 250, dps: 250, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 }
+      ],
+      obtainedFrom: "기본 캐릭터" 
+    },
+    { 
+      name: "배틀 고양이", 
+      code: "CAT_003", 
+      images: ['/images/basic/003_1.png', '/images/basic/003_2.png', '/images/basic/003_3.png'], 
+      type: "basic" as CharacterType, 
+      stats: [
+        { hp: 300, attack: 600, dps: 600, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 },
+        { hp: 325, attack: 650, dps: 650, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 },
+        { hp: 350, attack: 700, dps: 700, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 }
+      ],
+      obtainedFrom: "기본 캐릭터" 
+    },
+    { 
+      name: "징글 고양이", 
+      code: "CAT_004", 
+      images: ['/images/basic/004_1.png', '/images/basic/004_2.png', '/images/basic/004_3.png'], 
+      type: "basic" as CharacterType, 
+      stats: [
+        { hp: 350, attack: 450, dps: 450, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 },
+        { hp: 375, attack: 475, dps: 475, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 },
+        { hp: 400, attack: 500, dps: 500, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 }
+      ],
+      obtainedFrom: "기본 캐릭터" 
+    },
+    { 
+      name: "황소 고양이", 
+      code: "CAT_005", 
+      images: ['/images/basic/005_1.png', '/images/basic/005_2.png', '/images/basic/005_3.png'], 
+      type: "basic" as CharacterType, 
+      stats: [
+        { hp: 500, attack: 300, dps: 300, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 },
+        { hp: 550, attack: 325, dps: 325, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 },
+        { hp: 600, attack: 350, dps: 350, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 }
+      ],
+      obtainedFrom: "기본 캐릭터" 
+    },
+    { 
+      name: "고양이 새", 
+      code: "CAT_006", 
+      images: ['/images/basic/006_1.png', '/images/basic/006_2.png', '/images/basic/006_3.png'], 
+      type: "basic" as CharacterType, 
+      stats: [
+        { hp: 250, attack: 550, dps: 550, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 },
+        { hp: 275, attack: 575, dps: 575, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 },
+        { hp: 300, attack: 600, dps: 600, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 }
+      ],
+      obtainedFrom: "기본 캐릭터" 
+    },
+    { 
+      name: "고양이 피쉬", 
+      code: "CAT_007", 
+      images: ['/images/basic/007_1.png', '/images/basic/007_2.png', '/images/basic/007_3.png'], 
+      type: "basic" as CharacterType, 
+      stats: [
+        { hp: 450, attack: 350, dps: 350, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 },
+        { hp: 475, attack: 375, dps: 375, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 },
+        { hp: 500, attack: 400, dps: 400, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 }
+      ],
+      obtainedFrom: "기본 캐릭터" 
+    },
+    { 
+      name: "고양이 도마뱀", 
+      code: "CAT_008", 
+      images: ['/images/basic/008_1.png', '/images/basic/008_2.png', '/images/basic/008_3.png'], 
+      type: "basic" as CharacterType, 
+      stats: [
+        { hp: 550, attack: 250, dps: 250, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 },
+        { hp: 575, attack: 275, dps: 275, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 },
+        { hp: 600, attack: 300, dps: 300, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 }
+      ],
+      obtainedFrom: "기본 캐릭터" 
+    },
+    { 
+      name: "거신 고양이", 
+      code: "CAT_009", 
+      images: ['/images/basic/009_1.png', '/images/basic/009_2.png', '/images/basic/009_3.png'], 
+      type: "basic" as CharacterType, 
+      stats: [
+        { hp: 700, attack: 100, dps: 100, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 },
+        { hp: 750, attack: 125, dps: 125, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 },
+        { hp: 800, attack: 150, dps: 150, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 }
+      ],
+      obtainedFrom: "기본 캐릭터" 
+    },
+    { 
+      name: "고양이 초인", 
+      code: "CAT_644", 
+      images: ['/images/basic/644_1.png', '/images/basic/644_2.png', '/images/basic/644_3.png'], 
+      type: "basic" as CharacterType, 
+      stats: [
+        { 
+          hp: 250, 
+          attack: 400, 
+          dps: 120, // 기본 DPS 값 (예시, 실제 값으로 수정 필요)
+          attackSpeed: 3.33, 
+          initialDelay: 0.7, 
+          movementSpeed: 10, 
+          range: 140, 
+          hitBack: 1, 
+          cost: 75, 
+          cooldown: 2.5,
+          afterDelay: 0.5,
+          finishTime: 0.33 
+        },
+        { 
+          hp: 300, 
+          attack: 450, 
+          dps: 135, // 기본 DPS 값 (예시, 실제 값으로 수정 필요)
+          attackSpeed: 3.33, 
+          initialDelay: 0.7, 
+          movementSpeed: 10, 
+          range: 140, 
+          hitBack: 1, 
+          cost: 75, 
+          cooldown: 2.5,
+          afterDelay: 0.5,
+          finishTime: 0.33 
+        },
+        { 
+          hp: 350, 
+          attack: 500, 
+          dps: 150, // 기본 DPS 값 (예시, 실제 값으로 수정 필요)
+          attackSpeed: 3.33, 
+          initialDelay: 0.7, 
+          movementSpeed: 10, 
+          range: 140, 
+          hitBack: 1, 
+          cost: 75, 
+          cooldown: 2.5,
+          afterDelay: 0.5,
+          finishTime: 0.33 
+        }
+      ],
+      obtainedFrom: "기본 캐릭터" 
+    },
   ]
 
   return (
@@ -105,8 +244,8 @@ export default function CatInfo() {
               <span className="sr-only">Back to Home</span>
             </Link>
             <Image
-              src={logo}
-              alt="코대전쟁 로고"
+              src="/images/logo/logo.png"  // 이 줄을 수정했습니다.
+              alt="냥코대전쟁 로고"
               width={150}
               height={100}
             />
@@ -196,7 +335,7 @@ export default function CatInfo() {
             >
               <CardHeader>
                 <Image
-                  src={cat.image}
+                  src={cat.images[0]} // 첫 번째 이미지 사용
                   alt={cat.name}
                   width={200}
                   height={200}
