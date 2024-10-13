@@ -3,7 +3,6 @@ import Image from 'next/image'
 import { Dialog, DialogContent } from "@/app/components/ui/dialog"
 import { Button } from "@/app/components/ui/button"
 import { ChevronLeft, ChevronRight } from 'lucide-react'
-import { calculateDPS } from '@/app/lib/calculations';
 
 // 이 스타일 객체를 컴포넌트 외부에 정의합니다
 const hideNumberInputArrows: CSSProperties = {
@@ -24,7 +23,6 @@ export interface CharacterStatsModalProps {
     stats: {
       hp: number
       attack: number
-      dps: number
       attackSpeed: number
       initialDelay: number
       movementSpeed: number
@@ -34,6 +32,7 @@ export interface CharacterStatsModalProps {
       cooldown: number
       afterDelay: number
       finishTime: number
+      calculatedDps?: number
     }[]
     obtainedFrom: string
   }
@@ -106,25 +105,22 @@ const CharacterStatsModal: React.FC<CharacterStatsModalProps> = ({ isOpen, onClo
 
     const scaledAttack = Math.round(baseStats.attack * multiplier);
     const scaledHp = Math.round(baseStats.hp * multiplier);
-    const scaledDps = Math.round(baseStats.dps * multiplier);
     
-    // 실제 DPS 계산 (공격력 / 공격속도)
-    const calculatedDps = Math.round(scaledAttack / baseStats.attackSpeed);
+    // DPS 계산 (공격력 / 공격속도) - 소수점 이하 버림
+    const calculatedDps = Math.floor(scaledAttack / baseStats.attackSpeed);
 
     return {
       ...baseStats,
       hp: scaledHp,
       attack: scaledAttack,
-      dps: scaledDps,
-      calculatedDps: calculatedDps, // 새로 계산된 DPS
-      // 다른 스탯들은 그대로 유지
+      calculatedDps: calculatedDps,
     };
-  }, [character]); // character를 의존성 배열에 추가
+  }, [character]); // character를 존성 배열에 추가
 
   useEffect(() => {
-    const newStats = calculateStats(character.stats[currentImageIndex], level, plusLevel, character.type);
-    setStats(newStats);
-  }, [level, plusLevel, character.stats, character.type, calculateStats, currentImageIndex]);
+    const calculatedStats = calculateStats(character.stats[currentImageIndex], level, plusLevel, character.type);
+    setStats(calculatedStats);
+  }, [calculateStats, character.stats, currentImageIndex, level, plusLevel, character.type]);
 
   const handleLevelChange = (newValue: string | number) => {
     const stringValue = String(newValue);
@@ -177,8 +173,6 @@ const CharacterStatsModal: React.FC<CharacterStatsModalProps> = ({ isOpen, onClo
   const prevImage = () => {
     setCurrentImageIndex((prevIndex) => (prevIndex - 1 + character.images.length) % character.images.length);
   };
-
-  const calculatedDPS = calculateDPS(stats.dps, level);
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -267,12 +261,8 @@ const CharacterStatsModal: React.FC<CharacterStatsModalProps> = ({ isOpen, onClo
                   <span>{stats.attack}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span>기본 DPS</span>
-                  <span>{stats.dps}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span>계산된 DPS</span>
-                  <span>{calculatedDPS}</span>
+                  <span>DPS</span>
+                  <span>{stats.calculatedDps ?? 'N/A'}</span>
                 </div>
                 <hr className="my-2 border-gray-300" />
                 <div className="flex justify-between">

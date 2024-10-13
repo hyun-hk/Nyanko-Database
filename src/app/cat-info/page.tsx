@@ -13,7 +13,6 @@ import CharacterStatsModal, { CharacterStatsModalProps, CharacterType } from '@/
 interface CatStats {
   hp: number;
   attack: number;
-  dps: number;
   attackSpeed: number;
   initialDelay: number;
   movementSpeed: number;
@@ -79,9 +78,9 @@ export default function CatInfo() {
       images: ['/images/basic/001_1.png', '/images/basic/001_2.png', '/images/basic/001_3.png'], 
       type: "basic" as CharacterType, 
       stats: [
-        { hp: 250, attack: 20, dps: 16, attackSpeed: 1.23, initialDelay: 0.27, movementSpeed: 10, range: 140, hitBack: 3, cost: 75, cooldown: 2, afterDelay: 1, finishTime: 0.33 },
-        { hp: 250, attack: 20, dps: 16, attackSpeed: 1.23, initialDelay: 0.27, movementSpeed: 10, range: 140, hitBack: 3, cost: 75, cooldown: 2, afterDelay: 1, finishTime: 0.33 },
-        { hp: 500, attack: 40, dps: 32, attackSpeed: 1.23, initialDelay: 0.27, movementSpeed: 10, range: 140, hitBack: 3, cost: 75, cooldown: 2, afterDelay: 1, finishTime: 0.33 },
+        { hp: 250, attack: 20, attackSpeed: 1.23, initialDelay: 0.27, movementSpeed: 10, range: 140, hitBack: 3, cost: 75, cooldown: 2, afterDelay: 1, finishTime: 0.33 },
+        { hp: 250, attack: 20, attackSpeed: 1.23, initialDelay: 0.27, movementSpeed: 10, range: 140, hitBack: 3, cost: 75, cooldown: 2, afterDelay: 1, finishTime: 0.33 },
+        { hp: 500, attack: 40, attackSpeed: 1.23, initialDelay: 0.27, movementSpeed: 10, range: 140, hitBack: 3, cost: 75, cooldown: 2, afterDelay: 1, finishTime: 0.33 },
       ],
       obtainedFrom: "기본 캐릭터" 
     },
@@ -91,9 +90,9 @@ export default function CatInfo() {
       images: ['/images/basic/002_1.png', '/images/basic/002_2.png', '/images/basic/002_3.png'], 
       type: "basic" as CharacterType, 
       stats: [
-        { hp: 600, attack: 200, dps: 200, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 },
-        { hp: 650, attack: 225, dps: 225, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 },
-        { hp: 700, attack: 250, dps: 250, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 }
+        { hp: 600, attack: 200, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 },
+        { hp: 650, attack: 225, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 },
+        { hp: 700, attack: 250, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 }
       ],
       obtainedFrom: "기본 캐릭터" 
     },
@@ -103,9 +102,9 @@ export default function CatInfo() {
       images: ['/images/basic/003_1.png', '/images/basic/003_2.png', '/images/basic/003_3.png'], 
       type: "basic" as CharacterType, 
       stats: [
-        { hp: 300, attack: 600, dps: 600, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 },
-        { hp: 325, attack: 650, dps: 650, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 },
-        { hp: 350, attack: 700, dps: 700, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 }
+        { hp: 300, attack: 600, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 },
+        { hp: 325, attack: 650, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 },
+        { hp: 350, attack: 700, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 }
       ],
       obtainedFrom: "기본 캐릭터" 
     },
@@ -115,9 +114,9 @@ export default function CatInfo() {
       images: ['/images/basic/004_1.png', '/images/basic/004_2.png', '/images/basic/004_3.png'], 
       type: "basic" as CharacterType, 
       stats: [
-        { hp: 350, attack: 450, dps: 450, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 },
-        { hp: 375, attack: 475, dps: 475, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 },
-        { hp: 400, attack: 500, dps: 500, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 }
+        { hp: 350, attack: 450, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 },
+        { hp: 375, attack: 475, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 },
+        { hp: 400, attack: 500, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 }
       ],
       obtainedFrom: "기본 캐릭터" 
     },
@@ -127,9 +126,9 @@ export default function CatInfo() {
       images: ['/images/basic/005_1.png', '/images/basic/005_2.png', '/images/basic/005_3.png'], 
       type: "basic" as CharacterType, 
       stats: [
-        { hp: 500, attack: 300, dps: 300, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 },
-        { hp: 550, attack: 325, dps: 325, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 },
-        { hp: 600, attack: 350, dps: 350, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 }
+        { hp: 500, attack: 300, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 },
+        { hp: 550, attack: 325, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 },
+        { hp: 600, attack: 350, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 }
       ],
       obtainedFrom: "기본 캐릭터" 
     },
@@ -139,9 +138,9 @@ export default function CatInfo() {
       images: ['/images/basic/006_1.png', '/images/basic/006_2.png', '/images/basic/006_3.png'], 
       type: "basic" as CharacterType, 
       stats: [
-        { hp: 250, attack: 550, dps: 550, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 },
-        { hp: 275, attack: 575, dps: 575, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 },
-        { hp: 300, attack: 600, dps: 600, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 }
+        { hp: 250, attack: 550, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 },
+        { hp: 275, attack: 575, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 },
+        { hp: 300, attack: 600, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 }
       ],
       obtainedFrom: "기본 캐릭터" 
     },
@@ -151,9 +150,9 @@ export default function CatInfo() {
       images: ['/images/basic/007_1.png', '/images/basic/007_2.png', '/images/basic/007_3.png'], 
       type: "basic" as CharacterType, 
       stats: [
-        { hp: 450, attack: 350, dps: 350, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 },
-        { hp: 475, attack: 375, dps: 375, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 },
-        { hp: 500, attack: 400, dps: 400, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 }
+        { hp: 450, attack: 350, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 },
+        { hp: 475, attack: 375, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 },
+        { hp: 500, attack: 400, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 }
       ],
       obtainedFrom: "기본 캐릭터" 
     },
@@ -163,9 +162,9 @@ export default function CatInfo() {
       images: ['/images/basic/008_1.png', '/images/basic/008_2.png', '/images/basic/008_3.png'], 
       type: "basic" as CharacterType, 
       stats: [
-        { hp: 550, attack: 250, dps: 250, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 },
-        { hp: 575, attack: 275, dps: 275, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 },
-        { hp: 600, attack: 300, dps: 300, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 }
+        { hp: 550, attack: 250, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 },
+        { hp: 575, attack: 275, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 },
+        { hp: 600, attack: 300, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 }
       ],
       obtainedFrom: "기본 캐릭터" 
     },
@@ -175,9 +174,9 @@ export default function CatInfo() {
       images: ['/images/basic/009_1.png', '/images/basic/009_2.png', '/images/basic/009_3.png'], 
       type: "basic" as CharacterType, 
       stats: [
-        { hp: 700, attack: 100, dps: 100, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 },
-        { hp: 750, attack: 125, dps: 125, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 },
-        { hp: 800, attack: 150, dps: 150, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 }
+        { hp: 700, attack: 100, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 },
+        { hp: 750, attack: 125, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 },
+        { hp: 800, attack: 150, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 }
       ],
       obtainedFrom: "기본 캐릭터" 
     },
@@ -187,48 +186,9 @@ export default function CatInfo() {
       images: ['/images/basic/644_1.png', '/images/basic/644_2.png', '/images/basic/644_3.png'], 
       type: "basic" as CharacterType, 
       stats: [
-        { 
-          hp: 250, 
-          attack: 400, 
-          dps: 120, // 기본 DPS 값 (예시, 실제 값으로 수정 필요)
-          attackSpeed: 3.33, 
-          initialDelay: 0.7, 
-          movementSpeed: 10, 
-          range: 140, 
-          hitBack: 1, 
-          cost: 75, 
-          cooldown: 2.5,
-          afterDelay: 0.5,
-          finishTime: 0.33 
-        },
-        { 
-          hp: 300, 
-          attack: 450, 
-          dps: 135, // 기본 DPS 값 (예시, 실제 값으로 수정 필요)
-          attackSpeed: 3.33, 
-          initialDelay: 0.7, 
-          movementSpeed: 10, 
-          range: 140, 
-          hitBack: 1, 
-          cost: 75, 
-          cooldown: 2.5,
-          afterDelay: 0.5,
-          finishTime: 0.33 
-        },
-        { 
-          hp: 350, 
-          attack: 500, 
-          dps: 150, // 기본 DPS 값 (예시, 실제 값으로 수정 필요)
-          attackSpeed: 3.33, 
-          initialDelay: 0.7, 
-          movementSpeed: 10, 
-          range: 140, 
-          hitBack: 1, 
-          cost: 75, 
-          cooldown: 2.5,
-          afterDelay: 0.5,
-          finishTime: 0.33 
-        }
+        { hp: 250, attack: 400, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10,range: 140, hitBack: 1, cost: 75, cooldown: 2.5,afterDelay: 0.5,finishTime: 0.33 },
+        { hp: 250, attack: 400, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10,range: 140, hitBack: 1, cost: 75, cooldown: 2.5,afterDelay: 0.5,finishTime: 0.33 },
+        { hp: 250, attack: 400, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10,range: 140, hitBack: 1, cost: 75, cooldown: 2.5,afterDelay: 0.5,finishTime: 0.33 },
       ],
       obtainedFrom: "기본 캐릭터" 
     },
