@@ -15,9 +15,13 @@ const nextConfig = {
     return config;
   },
   images: {
-    domains: ['https://hyun-hk.github.io/Nyanko-Database'],
     unoptimized: true,
   },
 };
+
+// GitHub Pages에 배포할 때만 basePath를 설정합니다.
+if (process.env.GITHUB_ACTIONS) {
+  nextConfig.basePath = '/Nyanko-Database';
+}
 
 export default nextConfig;

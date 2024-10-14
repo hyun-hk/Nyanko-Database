@@ -52,7 +52,7 @@ export default function LandingPage() {
         <div className="container mx-auto py-4 px-4 flex items-center justify-between">
           <div className="flex items-center">
             <Image
-              src="images/logo/logo.png"
+              src="../images/logo/logo.png"
               alt="냥코대전쟁 로고"
               width={150}
               height={100}
