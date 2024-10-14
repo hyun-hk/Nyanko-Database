@@ -75,7 +75,7 @@ export default function CatInfo() {
     { 
       name: "고양이", 
       code: "CAT_001", 
-      images: ['/Nyanko-Database/images/basic/001_1.png', '/Nyanko-Database/images/basic/001_2.png', '/Nyanko-Database/images/basic/001_3.png'], 
+      images: ['images/basic/001_1.png', 'images/basic/001_2.png', 'images/basic/001_3.png'], 
       type: "basic" as CharacterType, 
       stats: [
         { hp: 250, attack: 20, attackSpeed: 1.23, initialDelay: 0.27, movementSpeed: 10, range: 140, hitBack: 3, cost: 75, cooldown: 2, afterDelay: 1, finishTime: 0.33 },
@@ -87,7 +87,7 @@ export default function CatInfo() {
     { 
       name: "탱크 고양이", 
       code: "CAT_002", 
-      images: ['/Nyanko-Database/images/basic/002_1.png', '/Nyanko-Database/images/basic/002_2.png', '/Nyanko-Database/images/basic/002_3.png'], 
+      images: ['images/basic/002_1.png', 'images/basic/002_2.png', 'images/basic/002_3.png'], 
       type: "basic" as CharacterType, 
       stats: [
         { hp: 600, attack: 200, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 },
@@ -99,7 +99,7 @@ export default function CatInfo() {
     { 
       name: "배틀 고양이", 
       code: "CAT_003", 
-      images: ['/Nyanko-Database/images/basic/003_1.png', '/Nyanko-Database/images/basic/003_2.png', '/Nyanko-Database/images/basic/003_3.png'], 
+      images: ['images/basic/003_1.png', 'images/basic/003_2.png', 'images/basic/003_3.png'], 
       type: "basic" as CharacterType, 
       stats: [
         { hp: 300, attack: 600, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 },
@@ -111,7 +111,7 @@ export default function CatInfo() {
     { 
       name: "징글 고양이", 
       code: "CAT_004", 
-      images: ['/Nyanko-Database/images/basic/004_1.png', '/Nyanko-Database/images/basic/004_2.png', '/Nyanko-Database/images/basic/004_3.png'], 
+      images: ['images/basic/004_1.png', 'images/basic/004_2.png', 'images/basic/004_3.png'], 
       type: "basic" as CharacterType, 
       stats: [
         { hp: 350, attack: 450, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 },
@@ -123,7 +123,7 @@ export default function CatInfo() {
     { 
       name: "황소 고양이", 
       code: "CAT_005", 
-      images: ['/Nyanko-Database/images/basic/005_1.png', '/Nyanko-Database/images/basic/005_2.png', '/Nyanko-Database/images/basic/005_3.png'], 
+      images: ['images/basic/005_1.png', 'images/basic/005_2.png', 'images/basic/005_3.png'], 
       type: "basic" as CharacterType, 
       stats: [
         { hp: 500, attack: 300, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 },
@@ -135,7 +135,7 @@ export default function CatInfo() {
     { 
       name: "고양이 새", 
       code: "CAT_006", 
-      images: ['/Nyanko-Database/images/basic/006_1.png', '/Nyanko-Database/images/basic/006_2.png', '/Nyanko-Database/images/basic/006_3.png'], 
+      images: ['images/basic/006_1.png', 'images/basic/006_2.png', 'images/basic/006_3.png'], 
       type: "basic" as CharacterType, 
       stats: [
         { hp: 250, attack: 550, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 },
@@ -147,7 +147,7 @@ export default function CatInfo() {
     { 
       name: "고양이 피쉬", 
       code: "CAT_007", 
-      images: ['/Nyanko-Database/images/basic/007_1.png', '/Nyanko-Database/images/basic/007_2.png', '/Nyanko-Database/images/basic/007_3.png'], 
+      images: ['images/basic/007_1.png', 'images/basic/007_2.png', 'images/basic/007_3.png'], 
       type: "basic" as CharacterType, 
       stats: [
         { hp: 450, attack: 350, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 },
@@ -159,7 +159,7 @@ export default function CatInfo() {
     { 
       name: "고양이 도마뱀", 
       code: "CAT_008", 
-      images: ['/Nyanko-Database/images/basic/008_1.png', '/Nyanko-Database/images/basic/008_2.png', '/Nyanko-Database/images/basic/008_3.png'], 
+      images: ['images/basic/008_1.png', 'images/basic/008_2.png', 'images/basic/008_3.png'], 
       type: "basic" as CharacterType, 
       stats: [
         { hp: 550, attack: 250, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 },
@@ -171,7 +171,7 @@ export default function CatInfo() {
     { 
       name: "거신 고양이", 
       code: "CAT_009", 
-      images: ['/Nyanko-Database/images/basic/009_1.png', '/Nyanko-Database/images/basic/009_2.png', '/Nyanko-Database/images/basic/009_3.png'], 
+      images: ['images/basic/009_1.png', 'images/basic/009_2.png', 'images/basic/009_3.png'], 
       type: "basic" as CharacterType, 
       stats: [
         { hp: 700, attack: 100, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10, range: 140, hitBack: 1, cost: 75, cooldown: 2.5, afterDelay: 0.5, finishTime: 0.33 },
@@ -183,7 +183,7 @@ export default function CatInfo() {
     { 
       name: "고양이 초인", 
       code: "CAT_644", 
-      images: ['/Nyanko-Database/images/basic/644_1.png', '/Nyanko-Database/images/basic/644_2.png', '/Nyanko-Database/images/basic/644_3.png'], 
+      images: ['images/basic/644_1.png', 'images/basic/644_2.png', 'images/basic/644_3.png'], 
       type: "basic" as CharacterType, 
       stats: [
         { hp: 250, attack: 400, attackSpeed: 3.33, initialDelay: 0.7, movementSpeed: 10,range: 140, hitBack: 1, cost: 75, cooldown: 2.5,afterDelay: 0.5,finishTime: 0.33 },
@@ -204,7 +204,7 @@ export default function CatInfo() {
               <span className="sr-only">Back to Home</span>
             </Link>
             <Image
-              src="/Nyanko-Database/images/logo/logo.png"  // 이 줄을 수정했습니다.
+              src="images/logo/logo.png"
               alt="냥코대전쟁 로고"
               width={150}
               height={100}
