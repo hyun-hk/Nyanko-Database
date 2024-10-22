@@ -1,213 +1,270 @@
 "use client";
 
-import { useState, useEffect } from 'react'
-import Head from 'next/head'
+import { useState, useCallback, useMemo, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Card, CardContent } from "@/app/components/ui/card"
+import { motion } from 'framer-motion'
 import { Button } from "@/app/components/ui/button"
-import { Input } from "@/app/components/ui/input"
-import { Cat, Skull, Map, Package, Calendar, Info, Search, ChevronRight, Star, Trophy, Users, Menu, Moon, Sun } from 'lucide-react'
-import { useTheme } from 'next-themes'
+import { Card, CardContent } from "@/app/components/ui/card"
+import { Cat, Swords, Shield, Zap, Target, Menu, Trophy, Clock, Star, Search, Sun, Moon } from 'lucide-react'
+import { useTheme, ThemeProvider } from 'next-themes'
 
 export default function MainPage() {
-  const [searchQuery, setSearchQuery] = useState('')
-  const [isLoading, setIsLoading] = useState(true)
-  const { theme, setTheme } = useTheme()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const { theme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
     setMounted(true)
-    setIsLoading(false)  // 컴포넌트가 마운트되면 로딩 상태를 false로 설정
   }, [])
 
-  const sections = [
-    { title: "아군 정보", icon: Cat, href: "/allies", color: "bg-blue-500" },
-    { title: "적 정보", icon: Skull, href: "/enemies", color: "bg-red-500" },
-    { title: "스테이지 정보", icon: Map, href: "/stages", color: "bg-green-500" },
-    { title: "아이템 정보", icon: Package, href: "/items", color: "bg-yellow-500" },
-    { title: "이벤트 정보", icon: Calendar, href: "/events", color: "bg-purple-500" },
-    { title: "게임 시스템", icon: Info, href: "/system", color: "bg-pink-500" },
-    { title: "랭킹", icon: Trophy, href: "/ranking", color: "bg-orange-500" },
-    { title: "커뮤니티", icon: Users, href: "/community", color: "bg-indigo-500" },
-    { title: "가이드", icon: Star, href: "/guides", color: "bg-teal-500" },
-  ]
+  const toggleMobileMenu = useCallback(() => {
+    setIsMobileMenuOpen(prev => !prev)
+  }, [])
 
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-blue-500"></div>
-      </div>
-    )
-  }
+  const toggleTheme = useCallback(() => {
+    setTheme(theme === 'dark' ? 'light' : 'dark')
+  }, [theme, setTheme])
+
+  const navItems = useMemo(() => [
+    { href: "#", label: "캐릭터", icon: Cat },
+    { href: "#", label: "스테이지", icon: Target },
+    { href: "#", label: "아이템", icon: Shield },
+    { href: "#", label: "이벤트", icon: Star },
+  ], [])
 
   return (
-    <>
-      <Head>
-        <title>냥코 데이터베이스 - 냥코대전쟁의 모든 정보</title>
-        <meta name="description" content="냥코대전쟁의 모든 정보를 한눈에! 캐릭터, 스테이지, 이벤트 정보를 확인하세요." />
-        <meta name="keywords" content="냥코대전쟁, 게임 데이터베이스, 캐릭터 정보, 스테이지 공략" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <div className="min-h-screen flex flex-col bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900">
-        <header className="bg-white dark:bg-gray-800 shadow-md py-4 px-6 mb-6">
-          <div className="container mx-auto flex justify-between items-center">
-            <div className="flex items-center space-x-4">
-              <Image
-                src="/placeholder.svg?height=40&width=40"
-                width={40}
-                height={40}
-                alt="냥코 로고"
-                className="rounded-full"
-              />
-              <h1 className="text-2xl font-bold text-gray-800 dark:text-white">냥코 데이터베이스</h1>
-            </div>
-            <div className="hidden md:flex items-center space-x-4">
-              <div className="relative w-64">
-                <Input
-                  type="search"
-                  placeholder="냥코 정보 검색..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10 pr-4 py-2 w-full rounded-full border-2 border-gray-300 dark:border-gray-600 focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
-                />
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-              </div>
-              {mounted && (
-                <Button
-                  onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-                  variant="outline"
-                  size="icon"
-                  className="w-10 h-10 rounded-full"
-                >
-                  {theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-                  <span className="sr-only">테마 변경</span>
-                </Button>
-              )}
-            </div>
-            <button
-              className="md:hidden text-gray-600 dark:text-gray-300"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            >
-              <Menu />
+    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
+      <header className="bg-white dark:bg-gray-800 shadow-sm sticky top-0 z-50">
+        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+          <motion.div 
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5 }}
+            className="flex items-center space-x-2"
+          >
+            <Image src="/placeholder.svg?height=40&width=40&text=냥코" width={40} height={40} alt="냥코 로고" className="rounded-full" />
+            <span className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600">냥코 DB</span>
+          </motion.div>
+          <nav className="hidden md:flex items-center space-x-6">
+            {navItems.map((item, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+              >
+                <Link href={item.href} className="text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 flex items-center transition-colors duration-200">
+                  <item.icon className="mr-1" size={18} />
+                  {item.label}
+                </Link>
+              </motion.div>
+            ))}
+          </nav>
+          <div className="hidden md:flex items-center space-x-4">
+            <Button variant="outline" className="text-purple-600 border-purple-600 hover:bg-purple-100 dark:text-purple-400 dark:border-purple-400 dark:hover:bg-purple-900">로그인</Button>
+            <Button className="bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600 transition-all duration-200">무료 체험</Button>
+            {mounted && (
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={toggleTheme}
+                aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+              >
+                {theme === 'light' ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />}
+              </Button>
+            )}
+          </div>
+          <div className="md:hidden flex items-center space-x-4">
+            {mounted && (
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={toggleTheme}
+                aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+              >
+                {theme === 'light' ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />}
+              </Button>
+            )}
+            <button className="text-gray-600 dark:text-gray-300" onClick={toggleMobileMenu}>
+              <Menu size={24} />
             </button>
           </div>
-          {isMobileMenuOpen && (
-            <div className="mt-4 md:hidden">
-              <Input
-                type="search"
-                placeholder="냥코 정보 검색..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="mb-2 w-full"
+        </div>
+        {isMobileMenuOpen && (
+          <motion.div 
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+            className="md:hidden bg-white dark:bg-gray-800 p-4"
+          >
+            <nav className="mb-4">
+              <ul className="space-y-2">
+                {navItems.map((item, index) => (
+                  <li key={index}>
+                    <Link href={item.href} className="text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 flex items-center py-2 transition-colors duration-200">
+                      <item.icon className="mr-2" size={18} />
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+            <Button variant="outline" className="text-purple-600 border-purple-600 hover:bg-purple-100 dark:text-purple-400 dark:border-purple-400 dark:hover:bg-purple-900 w-full mb-2">로그인</Button>
+            <Button className="bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600 transition-all duration-200 w-full">무료 체험</Button>
+          </motion.div>
+        )}
+      </header>
+
+      <main className="container mx-auto px-4 py-12">
+        <div className="flex flex-col lg:flex-row gap-8">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="lg:w-2/3"
+          >
+            <h1 className="text-4xl md:text-5xl font-bold mb-4 text-gray-800 dark:text-gray-100">
+              냥코 마스터가 되세요!
+            </h1>
+            <h2 className="text-2xl md:text-3xl text-gray-600 dark:text-gray-300 mb-6">
+              모든 정보를 한 곳에서
+            </h2>
+            <p className="text-xl mb-8 text-gray-600 dark:text-gray-400">
+              냥코 대전쟁의 모든 정보를 효율적으로 관리하고 게임 실력을 향상시키세요.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 mb-8">
+              <Button size="lg" className="text-lg px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600 transition-all duration-200">
+                냥코 여행 시작하기
+              </Button>
+              <Button size="lg" variant="outline" className="text-lg px-8 py-4 text-purple-600 border-purple-600 hover:bg-purple-100 dark:text-purple-400 dark:border-purple-400 dark:hover:bg-purple-900">
+                자세히 알아보기
+              </Button>
+            </div>
+            <div className="relative">
+              <input
+                type="text"
+                placeholder="캐릭터, 스테이지, 아이템 검색..."
+                className="w-full p-4 pr-12 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-500"
               />
-              {mounted && (
-                <Button
-                  onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-                  variant="outline"
-                  className="w-full justify-center"
-                >
-                  {theme === 'dark' ? <Sun className="mr-2 h-4 w-4" /> : <Moon className="mr-2 h-4 w-4" />}
-                  {theme === 'dark' ? '라이트 모드' : '다크 모드'}
-                </Button>
-              )}
+              <Search className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
             </div>
-          )}
-        </header>
-        <main className="container mx-auto px-4 flex-grow">
-          <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mb-6">
-            <Card className="col-span-full bg-gradient-to-r from-blue-500 to-purple-500 text-white overflow-hidden">
-              <CardContent className="p-6 flex flex-col md:flex-row items-center justify-between">
-                <div>
-                  <h2 className="text-2xl font-bold mb-2">새 이벤트: 여름 축제!</h2>
-                  <p className="mb-4">특별 냥코와 보물이 기다리고 있어요. 지금 참여하세요!</p>
-                  <Button variant="secondary" size="lg" className="bg-white text-blue-500 hover:bg-blue-100">
-                    축제 참가하기
-                    <ChevronRight className="ml-2 h-4 w-4" />
-                  </Button>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            className="lg:w-1/3"
+          >
+            <Image src="/placeholder.svg?height=300&width=400&text=냥코+대전쟁+이미지" width={400} height={300} alt="냥코 대전쟁 이미지" className="rounded-lg shadow-lg mx-auto" />
+          </motion.div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-16">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+          >
+            <Card className="bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-shadow duration-200 overflow-hidden">
+              <CardContent className="p-6">
+                <h3 className="font-bold mb-4 text-xl text-gray-800 dark:text-gray-100 flex items-center">
+                  <Trophy className="mr-2 text-yellow-500" size={24} />
+                  오늘의 미션
+                </h3>
+                <ul className="space-y-3">
+                  <li className="flex items-center text-gray-600 dark:text-gray-300">
+                    <Clock className="mr-2 text-purple-500" size={18} />
+                    <span>레어 캐릭터 뽑기</span>
+                  </li>
+                  <li className="flex items-center text-gray-600 dark:text-gray-300">
+                    <Swords className="mr-2 text-red-500" size={18} />
+                    <span>우르룬 격파 3회</span>
+                  </li>
+                  <li className="flex items-center text-gray-600 dark:text-gray-300">
+                    <Zap className="mr-2 text-yellow-500" size={18} />
+                    <span>XP 1000 획득</span>
+                  </li>
+                </ul>
+              </CardContent>
+            </Card>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+          >
+            <Card className="bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-shadow duration-200 overflow-hidden">
+              <CardContent className="p-6">
+                <h3 className="font-bold mb-4 text-xl text-gray-800 dark:text-gray-100 flex items-center">
+                  <Cat className="mr-2 text-purple-500" size={24} />
+                  인기 캐릭터
+                </h3>
+                <div className="grid grid-cols-3 gap-4">
+                  {[1, 2, 3].map((i) => (
+                    <div key={i} className="text-center">
+                      <Image src={`/placeholder.svg?height=60&width=60&text=냥코${i}`} width={60} height={60} alt={`냥코 ${i}`} className="rounded-full mx-auto mb-2" />
+                      <span className="text-sm text-gray-600 dark:text-gray-300">냥코 {i}호</span>
+                    </div>
+                  ))}
                 </div>
-                <Image
-                  src="/placeholder.svg?height=120&width=120"
-                  width={120}
-                  height={120}
-                  alt="이벤트 이미지"
-                  className="rounded-full border-4 border-white shadow-lg mt-4 md:mt-0"
-                />
               </CardContent>
             </Card>
-            {sections.map((item, index) => (
-              <Link href={item.href} key={index} className="group">
-                <Card className="h-full overflow-hidden shadow-md transition-all duration-300 hover:shadow-xl bg-white dark:bg-gray-700">
-                  <CardContent className="p-4 flex items-center space-x-4">
-                    <div className={`${item.color} p-3 rounded-full text-white`}>
-                      <item.icon className="w-6 h-6" />
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.5 }}
+          >
+            <Card className="bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-shadow duration-200 overflow-hidden">
+              <CardContent className="p-6">
+                <h3 className="font-bold mb-4 text-xl text-gray-800 dark:text-gray-100 flex items-center">
+                  <Target className="mr-2 text-pink-500" size={24} />
+                  최신 스테이지
+                </h3>
+                <ul className="space-y-3">
+                  <li className="flex items-center justify-between text-gray-600 dark:text-gray-300">
+                    <span>미래편 3장</span>
+                    <Star className="text-yellow-500" size={18} />
+                  </li>
+                  <li className="flex items-center justify-between text-gray-600 dark:text-gray-300">
+                    <span>우주편 2장</span>
+                    <Star className="text-yellow-500" size={18} />
+                  </li>
+                  <li className="flex items-center justify-between text-gray-600 dark:text-gray-300">
+                    <span>전설의 시작 1장</span>
+                    <div className="flex">
+                      <Star className="text-yellow-500" size={18} />
+                      <Star className="text-yellow-500" size={18} />
                     </div>
-                    <div className="flex-grow">
-                      <h2 className="text-lg font-semibold text-gray-800 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300">{item.title}</h2>
-                    </div>
-                    <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300" />
-                  </CardContent>
-                </Card>
-              </Link>
-            ))}
-          </div>
-          <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 mb-6">
-            <Card>
-              <CardContent className="p-4">
-                <h3 className="text-lg font-semibold mb-2 dark:text-white">최신 업데이트</h3>
-                <ul className="space-y-2 text-gray-600 dark:text-gray-300">
-                  <li>새로운 울트라 슈퍼 레어 캐릭터 추가</li>
-                  <li>스테이지 50-60 오픈</li>
-                  <li>버그 수정 및 성능 개선</li>
+                  </li>
                 </ul>
               </CardContent>
             </Card>
-            <Card>
-              <CardContent className="p-4">
-                <h3 className="text-lg font-semibold mb-2 dark:text-white">인기 가이드</h3>
-                <ul className="space-y-2 text-gray-600 dark:text-gray-300">
-                  <li>초보자를 위한 빠른 시작 가이드</li>
-                  <li>효적인 캣 푸드 파밍 방법</li>
-                  <li>레전드 스테이지 공략법</li>
-                </ul>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="p-4">
-                <h3 className="text-lg font-semibold mb-2 dark:text-white">커뮤니티 핫토픽</h3>
-                <ul className="space-y-2 text-gray-600 dark:text-gray-300">
-                  <li>새로운 콜라보 이벤트 예측</li>
-                  <li>최강 조합 토론</li>
-                  <li>다음 업데이트 기대 요소</li>
-                </ul>
-              </CardContent>
-            </Card>
-          </div>
-        </main>
-        <footer className="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 py-8 mt-12">
-          <div className="container mx-auto px-4">
-            <div className="flex flex-wrap justify-between items-center">
-              <div className="w-full md:w-1/3 text-center md:text-left mb-4 md:mb-0">
-                <h4 className="text-lg font-semibold text-gray-800 dark:text-white">냥코 데이터베이스</h4>
-                <p className="mt-2 text-sm text-gray-600 dark:text-gray-300">냥코대전쟁의 모든 비밀을 한눈에!</p>
-              </div>
-              <div className="w-full md:w-1/3 text-center mb-4 md:mb-0">
-                <nav>
-                  <ul className="flex justify-center space-x-4">
-                    <li><Link href="/about" className="text-gray-600 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400 transition-colors duration-300">소개</Link></li>
-                    <li><Link href="/contact" className="text-gray-600 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400 transition-colors duration-300">문의</Link></li>
-                    <li><Link href="/privacy" className="text-gray-600 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400 transition-colors duration-300">개인정보 처리방침</Link></li>
-                  </ul>
-                </nav>
-              </div>
-              <div className="w-full md:w-1/3 text-center md:text-right">
-                <p className="text-sm text-gray-600 dark:text-gray-300">© 2024 냥코 데이터베이스. 모든 권리 보유.</p>
-              </div>
+          </motion.div>
+        
+        </div>
+      </main>
+
+      <footer className="bg-gray-800 text-white py-8 mt-16">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+            <div>
+              <h4 className="text-lg font-bold mb-2">냥코 데이터베이스</h4>
+              <p className="text-sm text-gray-400">© 2023 All rights reserved</p>
+            </div>
+            <div className="flex space-x-4">
+              <Link href="#" className="text-gray-400 hover:text-white transition-colors duration-200">이용약관</Link>
+              <Link href="#" className="text-gray-400 hover:text-white transition-colors duration-200">개인정보처리방침</Link>
+              <Link href="#" className="text-gray-400 hover:text-white transition-colors duration-200">문의하기</Link>
             </div>
           </div>
-        </footer>
-      </div>
-    </>
+        </div>
+      </footer>
+    </div>
+    </ThemeProvider>
   )
 }
