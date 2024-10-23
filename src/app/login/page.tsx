@@ -8,8 +8,7 @@ import { Button } from "@/app/components/ui/button"
 import { Input } from "@/app/components/ui/input"
 import { Label } from "@/app/components/ui/label"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/app/components/ui/card"
-import { Separator } from "@/app/components/ui/separator"
-import { Cat, ArrowLeft, Github, Twitter, Mail } from 'lucide-react'
+import { Cat, ArrowLeft, Github, Twitter } from 'lucide-react'
 
 // Google 아이콘 컴포넌트 추가
 const GoogleIcon = ({ className }: { className?: string }) => (
@@ -95,10 +94,15 @@ export default function LoginPage() {
               </Button>
             </form>
             <div className="mt-6">
-              <Separator className="my-4">
-                <span className="px-2 text-sm text-gray-500">또는</span>
-              </Separator>
-              <div className="space-y-2">
+              <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                  <span className="w-full border-t border-gray-300 dark:border-gray-600" />
+                </div>
+                <div className="relative flex justify-center text-xs uppercase">
+                  <span className="bg-card px-2 text-muted-foreground">또는</span>
+                </div>
+              </div>
+              <div className="mt-6 space-y-2">
                 <Button variant="outline" className="w-full flex items-center justify-center" onClick={() => console.log('Google login')}>
                   <GoogleIcon className="mr-2 h-5 w-5" />
                   Google로 로그인

@@ -1,4 +1,4 @@
-"use client";
+'use client'
 
 import { useState, useCallback, useMemo, useEffect } from 'react'
 import Link from 'next/link'
@@ -121,7 +121,7 @@ export default function MainPage() {
   }, [theme, setTheme])
 
   const navItems = useMemo(() => [
-    { href: "#", label: "아군 캐터", icon: Users, color: "#4CAF50" },
+    { href: "#", label: "아군 캐릭터", icon: Users, color: "#4CAF50" },
     { href: "#", label: "적 캐릭터", icon: Skull, color: "#F44336" },
     { href: "#", label: "스테이지", icon: Target, color: "#2196F3" },
     { href: "#", label: "아이템", icon: Shield, color: "#FFC107" },
@@ -246,10 +246,22 @@ export default function MainPage() {
                   ))}
                 </ul>
               </nav>
-              <Link href="/login">
-                <Button variant="outline" className="text-purple-600 border-purple-600 hover:bg-purple-100 dark:text-purple-400 dark:border-purple-400 dark:hover:bg-purple-900 w-full mb-2">로그인</Button>
-              </Link>
-              <Button className="bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600 transition-all duration-200 w-full">무료 체험</Button>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: navItems.length * 0.1 }}
+              >
+                <Link href="/login">
+                  <Button variant="outline" className="text-purple-600 border-purple-600 hover:bg-purple-100 dark:text-purple-400 dark:border-purple-400 dark:hover:bg-purple-900 w-full mb-2">로그인</Button>
+                </Link>
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: (navItems.length + 1) * 0.1 }}
+              >
+                <Button className="bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600 transition-all duration-200 w-full">무료 체험</Button>
+              </motion.div>
             </motion.div>
           )}
         </AnimatePresence>
@@ -289,6 +301,7 @@ export default function MainPage() {
               <input
                 type="text"
                 placeholder="캐릭터, 스테이지, 아이템 검색..."
+                
                 className="w-full p-4 pr-12 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-500"
               />
               <Search className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
