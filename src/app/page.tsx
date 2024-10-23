@@ -82,8 +82,8 @@ const ChapterSection = ({ title, description, icon: Icon, iconColor, image, colo
               </motion.li>
             ))}
           </ul>
-          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-            <Button className={`mt-4 bg-gradient-to-r ${color} text-white hover:opacity-90 transition-all duration-200`}>
+          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="pointer-events-none">
+            <Button className={`mt-4 bg-gradient-to-r ${color} text-white hover:opacity-90 transition-all duration-200 pointer-events-auto`}>
               {title.split(':')[1].trim()} 열기 <ChevronRight className="ml-2 h-4 w-4" />
             </Button>
           </motion.div>
@@ -177,18 +177,18 @@ export default function MainPage() {
           </nav>
           <motion.div 
             key="buttons"
-            className="hidden md:flex items-center space-x-4"
+            className="hidden md:flex items-center space-x-4 pointer-events-none"
             variants={containerVariants}
             initial="hidden"
             animate="visible"
           >
             <motion.div key="login" variants={itemVariants}>
               <Link href="/login">
-                <Button variant="outline" className="text-purple-600 border-purple-600 hover:bg-purple-100 dark:text-purple-400 dark:border-purple-400 dark:hover:bg-purple-900">로그인</Button>
+                <Button variant="outline" className="text-purple-600 border-purple-600 hover:bg-purple-100 dark:text-purple-400 dark:border-purple-400 dark:hover:bg-purple-900 pointer-events-auto">로그인</Button>
               </Link>
             </motion.div>
             <motion.div key="freeTrial" variants={itemVariants}>
-              <Button className="bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600 transition-all duration-200">무료 체험</Button>
+              <Button className="bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600 transition-all duration-200 pointer-events-auto">무료 체험</Button>
             </motion.div>
             {mounted && (
               <motion.div key="themeToggle" variants={itemVariants}>
@@ -252,7 +252,7 @@ export default function MainPage() {
                 transition={{ delay: navItems.length * 0.1 }}
               >
                 <Link href="/login">
-                  <Button variant="outline" className="text-purple-600 border-purple-600 hover:bg-purple-100 dark:text-purple-400 dark:border-purple-400 dark:hover:bg-purple-900 w-full mb-2">로그인</Button>
+                  <Button variant="outline" className="text-purple-600 border-purple-600 hover:bg-purple-100 dark:text-purple-400 dark:border-purple-400 dark:hover:bg-purple-900 w-full mb-2 pointer-events-auto">로그인</Button>
                 </Link>
               </motion.div>
               <motion.div
@@ -260,7 +260,7 @@ export default function MainPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: (navItems.length + 1) * 0.1 }}
               >
-                <Button className="bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600 transition-all duration-200 w-full">무료 체험</Button>
+                <Button className="bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600 transition-all duration-200 w-full pointer-events-auto">무료 체험</Button>
               </motion.div>
             </motion.div>
           )}
@@ -285,23 +285,23 @@ export default function MainPage() {
             <p className="text-xl mb-8 text-gray-600 dark:text-gray-400">
               냥코 대전쟁의 모든 정보를 효율적으로 관리하고 게임 실력을 향상시키세요.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 mb-8">
+            <div className="flex flex-col sm:flex-row gap-4 mb-8 pointer-events-none">
               <motion.div key="startButton" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <Button size="lg" className="text-lg px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600 transition-all duration-200">
+                <Button size="lg" className="text-lg px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600 transition-all duration-200 pointer-events-auto">
                   냥코 여행 시작하기
                 </Button>
               </motion.div>
               <motion.div key="learnMoreButton" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <Button size="lg" variant="outline" className="text-lg px-8 py-4 text-purple-600 border-purple-600 hover:bg-purple-100 dark:text-purple-400 dark:border-purple-400 dark:hover:bg-purple-900">
+                <Button size="lg" variant="outline" className="text-lg px-8 py-4 text-purple-600 border-purple-600 hover:bg-purple-100 dark:text-purple-400 dark:border-purple-400 dark:hover:bg-purple-900 pointer-events-auto">
                   자세히 알아보기
                 </Button>
               </motion.div>
+            
             </div>
             <div className="relative">
               <input
                 type="text"
                 placeholder="캐릭터, 스테이지, 아이템 검색..."
-                
                 className="w-full p-4 pr-12 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-500"
               />
               <Search className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
