@@ -113,7 +113,7 @@ export default function MainPage() {
   }, [])
 
   const toggleMobileMenu = useCallback(() => {
-    setIsMobileMenuOpen(prev => !prev)
+    setIsMobileMenuOpen((prev) => !prev)
   }, [])
 
   const toggleTheme = useCallback(() => {
@@ -136,7 +136,7 @@ export default function MainPage() {
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
       <motion.header 
         key="header"
-        className="bg-white dark:bg-gray-800 shadow-sm sticky top-0 z-50"
+        className="bg-white dark:bg-gray-800 shadow-sm sticky top-0 z-50 relative"
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ type: "spring", stiffness: 100, damping: 20 }}
@@ -214,9 +214,13 @@ export default function MainPage() {
                 {theme === 'light' ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />}
               </Button>
             )}
-            <button className="text-gray-600 dark:text-gray-300" onClick={toggleMobileMenu}>
+            <motion.button
+              className="text-gray-600 dark:text-gray-300"
+              onClick={toggleMobileMenu}
+              whileTap={{ scale: 0.95 }}
+            >
               <Menu size={24} />
-            </button>
+            </motion.button>
           </div>
         </div>
         <AnimatePresence>
@@ -226,17 +230,24 @@ export default function MainPage() {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3 }}
-              className="md:hidden bg-white dark:bg-gray-800 p-4"
+              transition={{ duration: 0.2 }}
+              className="md:hidden bg-white dark:bg-gray-800 p-4 overflow-hidden absolute top-full left-0 right-0 z-50 shadow-md"
             >
-              <nav className="mb-4">
+              <motion.nav 
+                className="mb-4"
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.2 }}
+              >
                 <ul className="space-y-2">
                   {navItems.map((item, index) => (
                     <motion.li 
                       key={index}
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: index * 0.1 }}
+                      exit={{ opacity: 0, x: -20 }}
+                      transition={{ duration: 0.2 }}
                     >
                       <Link href={item.href} className="text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 flex items-center py-2 transition-colors duration-200">
                         <ColoredIcon icon={item.icon} className="mr-2" size={18} color={item.color} />
@@ -245,20 +256,22 @@ export default function MainPage() {
                     </motion.li>
                   ))}
                 </ul>
-              </nav>
+              </motion.nav>
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: navItems.length * 0.1 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.2 }}
               >
                 <Link href="/login">
                   <Button variant="outline" className="text-purple-600 border-purple-600 hover:bg-purple-100 dark:text-purple-400 dark:border-purple-400 dark:hover:bg-purple-900 w-full mb-2 pointer-events-auto">로그인</Button>
                 </Link>
               </motion.div>
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: (navItems.length + 1) * 0.1 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.2 }}
               >
                 <Button className="bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600 transition-all duration-200 w-full pointer-events-auto">무료 체험</Button>
               </motion.div>
@@ -286,17 +299,16 @@ export default function MainPage() {
               냥코 대전쟁의 모든 정보를 효율적으로 관리하고 게임 실력을 향상시키세요.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 mb-8 pointer-events-none">
-              <motion.div key="startButton" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <Button size="lg" className="text-lg px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600 transition-all duration-200 pointer-events-auto">
+              <motion.div key="startButton" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="w-full sm:w-auto">
+                <Button size="lg" className="w-full sm:w-auto text-lg px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600 transition-all duration-200 pointer-events-auto">
                   냥코 여행 시작하기
                 </Button>
               </motion.div>
-              <motion.div key="learnMoreButton" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <Button size="lg" variant="outline" className="text-lg px-8 py-4 text-purple-600 border-purple-600 hover:bg-purple-100 dark:text-purple-400 dark:border-purple-400 dark:hover:bg-purple-900 pointer-events-auto">
+              <motion.div key="learnMoreButton" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95  }} className="w-full sm:w-auto">
+                <Button size="lg" variant="outline" className="w-full sm:w-auto text-lg px-8 py-4 text-purple-600 border-purple-600 hover:bg-purple-100 dark:text-purple-400 dark:border-purple-400 dark:hover:bg-purple-900 pointer-events-auto">
                   자세히 알아보기
                 </Button>
               </motion.div>
-            
             </div>
             <div className="relative">
               <input
