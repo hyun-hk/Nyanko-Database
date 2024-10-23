@@ -3,11 +3,120 @@
 import { useState, useCallback, useMemo, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { Button } from "@/app/components/ui/button"
 import { Card, CardContent } from "@/app/components/ui/card"
-import { Cat, Swords, Shield, Zap, Target, Menu, Trophy, Clock, Star, Search, Sun, Moon, ChevronRight, Book, Gamepad, Backpack } from 'lucide-react'
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/app/components/ui/collapsible"
+import { Cat, Swords, Shield, Zap, Target, Menu, Trophy, Clock, Star, Search, Sun, Moon, ChevronRight, Book, Gamepad, Skull, Users, ChevronDown, ChevronUp } from 'lucide-react'
 import { useTheme } from 'next-themes'
+
+const ColoredIcon = ({ icon: Icon, color, ...props }: { icon: React.ElementType; color: string; [key: string]: any }) => (
+  <motion.div
+    whileHover={{ scale: 1.2 }}
+    whileTap={{ scale: 0.9 }}
+  >
+    <Icon color={color} {...props} />
+  </motion.div>
+)
+
+const itemVariants = {
+  hidden: { y: 20, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      type: "spring",
+      stiffness: 100
+    }
+  }
+}
+
+interface ChapterSectionProps {
+  title: string;
+  description: string;
+  icon: React.ElementType;
+  image: string;
+  color: string;
+  items: string[];
+}
+
+const ChapterSection = ({ title, description, icon: Icon, image, color, items }: ChapterSectionProps) => {
+  const [isOpen, setIsOpen] = useState(false)
+
+  return (
+    <motion.div 
+      variants={itemVariants} 
+      className="relative"
+      whileHover={{ scale: 1.02 }}
+      transition={{ type: "spring", stiffness: 400, damping: 10 }}
+    >
+      <div className={`absolute inset-0 bg-gradient-to-r ${color} opacity-10 rounded-3xl`}></div>
+      <div className="relative flex flex-col md:flex-row items-center gap-12 p-8 rounded-3xl overflow-hidden">
+        <div className="md:w-1/2">
+          <Image src={`/placeholder.svg?height=400&width=500&text=${image}`} width={500} height={400} alt={title} className="rounded-2xl shadow-2xl" />
+        </div>
+        <div className="md:w-1/2 space-y-6">
+          <h3 className="text-3xl font-bold mb-4 text-gray-800 dark:text-gray-100 flex items-center">
+            <ColoredIcon icon={Icon} className="mr-3" size={32} color={color.split(' ')[1]} />
+            {title}
+          </h3>
+          <p className="text-xl text-gray-600 dark:text-gray-300">
+            {description}
+          </p>
+          <Collapsible open={isOpen} onOpenChange={setIsOpen}>
+            <CollapsibleTrigger asChild>
+              <Button variant="outline" className="w-full justify-between">
+                자세히 보기
+                <motion.div
+                  animate={{ rotate: isOpen ? 180 : 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <ChevronDown className="h-4 w-4 ml-2" />
+                </motion.div>
+              </Button>
+            </CollapsibleTrigger>
+            <AnimatePresence>
+              {isOpen && (
+                <CollapsibleContent asChild>
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <ul className="mt-4 space-y-2">
+                      {items.map((item, index) => (
+                        <motion.li 
+                          key={index}
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: index * 0.1 }}
+                          className="flex items-center text-gray-600 dark:text-gray-300"
+                        >
+                          <ChevronRight className="mr-2" size={16} />
+                          {item}
+                        </motion.li>
+                      ))}
+                    </ul>
+                  </motion.div>
+                </CollapsibleContent>
+              )}
+            </AnimatePresence>
+          </Collapsible>
+          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <Button className={`mt-4 bg-gradient-to-r ${color} text-white hover:opacity-90 transition-all duration-200`}>
+              {title.split(':')[1].trim()} 열기 <ChevronRight className="ml-2 h-4 w-4" />
+            </Button>
+          </motion.div>
+        </div>
+      </div>
+    </motion.div>
+  )
+}
 
 export default function MainPage() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -27,10 +136,11 @@ export default function MainPage() {
   }, [theme, setTheme])
 
   const navItems = useMemo(() => [
-    { href: "#", label: "캐릭터", icon: Cat },
-    { href: "#", label: "스테이지", icon: Target },
-    { href: "#", label: "아이템", icon: Shield },
-    { href: "#", label: "이벤트", icon: Star },
+    { href: "#", label: "아군 캐릭터", icon: Users, color: "#4CAF50" },
+    { href: "#", label: "적 캐릭터", icon: Skull, color: "#F44336" },
+    { href: "#", label: "스테이지", icon: Target, color: "#2196F3" },
+    { href: "#", label: "아이템", icon: Shield, color: "#FFC107" },
+    { href: "#", label: "이벤트", icon: Star, color: "#9C27B0" },
   ], [])
 
   const containerVariants = {
@@ -39,18 +149,6 @@ export default function MainPage() {
       opacity: 1,
       transition: {
         staggerChildren: 0.1
-      }
-    }
-  }
-
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        type: "spring",
-        stiffness: 100
       }
     }
   }
@@ -82,7 +180,7 @@ export default function MainPage() {
                 transition={{ duration: 0.5, delay: index * 0.1 }}
               >
                 <Link href={item.href} className="text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 flex items-center transition-colors duration-200">
-                  <item.icon className="mr-1" size={18} />
+                  <ColoredIcon icon={item.icon} className="mr-1" size={18} color={item.color} />
                   {item.label}
                 </Link>
               </motion.div>
@@ -129,29 +227,37 @@ export default function MainPage() {
             </button>
           </div>
         </div>
-        {isMobileMenuOpen && (
-          <motion.div 
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
-            className="md:hidden bg-white dark:bg-gray-800 p-4"
-          >
-            <nav className="mb-4">
-              <ul className="space-y-2">
-                {navItems.map((item, index) => (
-                  <li key={index}>
-                    <Link href={item.href} className="text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 flex items-center py-2 transition-colors duration-200">
-                      <item.icon className="mr-2" size={18} />
-                      {item.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </nav>
-            <Button variant="outline" className="text-purple-600 border-purple-600 hover:bg-purple-100 dark:text-purple-400 dark:border-purple-400 dark:hover:bg-purple-900 w-full mb-2">로그인</Button>
-            <Button className="bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600 transition-all duration-200 w-full">무료 체험</Button>
-          </motion.div>
-        )}
+        <AnimatePresence>
+          {isMobileMenuOpen && (
+            <motion.div 
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3 }}
+              className="md:hidden bg-white dark:bg-gray-800 p-4"
+            >
+              <nav className="mb-4">
+                <ul className="space-y-2">
+                  {navItems.map((item, index) => (
+                    <motion.li 
+                      key={index}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: index * 0.1 }}
+                    >
+                      <Link href={item.href} className="text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 flex items-center py-2 transition-colors duration-200">
+                        <ColoredIcon icon={item.icon} className="mr-2" size={18} color={item.color} />
+                        {item.label}
+                      </Link>
+                    </motion.li>
+                  ))}
+                </ul>
+              </nav>
+              <Button variant="outline" className="text-purple-600 border-purple-600 hover:bg-purple-100 dark:text-purple-400 dark:border-purple-400 dark:hover:bg-purple-900 w-full mb-2">로그인</Button>
+              <Button className="bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600 transition-all duration-200 w-full">무료 체험</Button>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </motion.header>
 
       <main className="container mx-auto px-4 py-12">
@@ -172,12 +278,16 @@ export default function MainPage() {
               냥코 대전쟁의 모든 정보를 효율적으로 관리하고 게임 실력을 향상시키세요.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 mb-8">
-              <Button size="lg" className="text-lg px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600 transition-all duration-200">
-                냥코 여행 시작하기
-              </Button>
-              <Button size="lg" variant="outline" className="text-lg px-8 py-4 text-purple-600 border-purple-600 hover:bg-purple-100 dark:text-purple-400 dark:border-purple-400 dark:hover:bg-purple-900">
-                자세히 알아보기
-              </Button>
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <Button size="lg" className="text-lg px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600  transition-all duration-200">
+                  냥코 여행 시작하기
+                </Button>
+              </motion.div>
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <Button size="lg" variant="outline" className="text-lg px-8 py-4 text-purple-600 border-purple-600 hover:bg-purple-100 dark:text-purple-400 dark:border-purple-400 dark:hover:bg-purple-900">
+                  자세히 알아보기
+                </Button>
+              </motion.div>
             </div>
             <div className="relative">
               <input
@@ -208,20 +318,20 @@ export default function MainPage() {
             <Card className="bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-shadow duration-200 overflow-hidden">
               <CardContent className="p-6">
                 <h3 className="font-bold mb-4 text-xl text-gray-800 dark:text-gray-100 flex items-center">
-                  <Trophy className="mr-2 text-yellow-500" size={24} />
+                  <ColoredIcon icon={Trophy} className="mr-2" size={24} color="#FFD700" />
                   오늘의 미션
                 </h3>
                 <ul className="space-y-3">
                   <li className="flex items-center text-gray-600 dark:text-gray-300">
-                    <Clock className="mr-2 text-purple-500" size={18} />
+                    <ColoredIcon icon={Clock} className="mr-2" size={18} color="#8B5CF6" />
                     <span>레어 캐릭터 뽑기</span>
                   </li>
                   <li className="flex items-center text-gray-600 dark:text-gray-300">
-                    <Swords className="mr-2 text-red-500" size={18} />
+                    <ColoredIcon icon={Swords} className="mr-2" size={18} color="#EF4444" />
                     <span>우르룬 격파 3회</span>
                   </li>
                   <li className="flex items-center text-gray-600 dark:text-gray-300">
-                    <Zap className="mr-2 text-yellow-500" size={18} />
+                    <ColoredIcon icon={Zap} className="mr-2" size={18} color="#F59E0B" />
                     <span>XP 1000 획득</span>
                   </li>
                 </ul>
@@ -233,7 +343,7 @@ export default function MainPage() {
             <Card className="bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-shadow duration-200 overflow-hidden">
               <CardContent className="p-6">
                 <h3 className="font-bold mb-4 text-xl text-gray-800 dark:text-gray-100 flex items-center">
-                  <Cat className="mr-2 text-purple-500" size={24} />
+                  <ColoredIcon icon={Users} className="mr-2" size={24} color="#3B82F6" />
                   인기 캐릭터
                 </h3>
                 <div className="grid grid-cols-3 gap-4">
@@ -252,23 +362,23 @@ export default function MainPage() {
             <Card className="bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-shadow duration-200 overflow-hidden">
               <CardContent className="p-6">
                 <h3 className="font-bold mb-4 text-xl text-gray-800 dark:text-gray-100 flex items-center">
-                  <Target className="mr-2 text-pink-500" size={24} />
+                  <ColoredIcon icon={Target} className="mr-2" size={24} color="#EC4899" />
                   최신 스테이지
                 </h3>
                 <ul className="space-y-3">
                   <li className="flex items-center justify-between text-gray-600 dark:text-gray-300">
                     <span>미래편 3장</span>
-                    <Star className="text-yellow-500" size={18} />
+                    <ColoredIcon icon={Star} size={18} color="#F59E0B" />
                   </li>
-                  <li className="flex items-center justify-between text-gray-600  dark:text-gray-300">
-                    <span>우주편 2장</span>
-                    <Star className="text-yellow-500" size={18} />
+                  <li className="flex items-center justify-between text-gray-600 dark:text-gray-300">
+                    <span>우주편  2장</span>
+                    <ColoredIcon icon={Star} size={18} color="#F59E0B" />
                   </li>
                   <li className="flex items-center justify-between text-gray-600 dark:text-gray-300">
                     <span>전설의 시작 1장</span>
                     <div className="flex">
-                      <Star className="text-yellow-500" size={18} />
-                      <Star className="text-yellow-500" size={18} />
+                      <ColoredIcon icon={Star} size={18} color="#F59E0B" />
+                      <ColoredIcon icon={Star} size={18} color="#F59E0B" />
                     </div>
                   </li>
                 </ul>
@@ -283,68 +393,47 @@ export default function MainPage() {
           initial="hidden"
           animate="visible"
         >
-          <motion.div variants={itemVariants} className="relative">
-            <div className="absolute inset-0 bg-gradient-to-r from-purple-400 to-pink-500 opacity-10 rounded-3xl"></div>
-            <div className="relative flex flex-col md:flex-row items-center gap-12 p-8 rounded-3xl overflow-hidden">
-              <div className="md:w-1/2">
-                <Image src="/placeholder.svg?height=400&width=500&text=캐릭터+도감" width={500} height={400} alt="캐릭터 도감" className="rounded-2xl shadow-2xl" />
-              </div>
-              <div className="md:w-1/2 space-y-6">
-                <h3 className="text-3xl font-bold mb-4 text-gray-800 dark:text-gray-100 flex items-center">
-                  <Book className="mr-3 text-purple-500" size={32} />
-                  챕터 1: 캐릭터 도감
-                </h3>
-                <p className="text-xl text-gray-600 dark:text-gray-300">
-                  모든 냥코 캐릭터의 상세 정보를 한눈에 확인하세요. 레어도, 능력치, 특수 스킬 등 다양한 정보를 제공합니다.
-                </p>
-                <Button className="mt-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600 transition-all duration-200">
-                  도감 열기 <ChevronRight className="ml-2 h-4 w-4" />
-                </Button>
-              </div>
-            </div>
-          </motion.div>
+          <ChapterSection
+            title="챕터 1: 캐릭터 도감"
+            description="모든 냥코 캐릭터의 상세 정보를 한눈에 확인하세요. 레어도, 능력치, 특수 스킬 등 다양한 정보를 제공합니다."
+            icon={Book}
+            image="캐릭터+도감"
+            color="from-purple-400 to-pink-500"
+            items={[
+              "200+ 캐릭터 정보",
+              "레어도별 분류 시스템",
+              "캐릭터 조합 추천",
+              "능력치 상세 분석"
+            ]}
+          />
 
-          <motion.div variants={itemVariants} className="relative">
-            <div className="absolute inset-0 bg-gradient-to-r from-green-400 to-blue-500 opacity-10 rounded-3xl"></div>
-            <div className="relative flex flex-col md:flex-row-reverse items-center gap-12 p-8 rounded-3xl overflow-hidden">
-              <div className="md:w-1/2">
-                <Image src="/placeholder.svg?height=400&width=500&text=스테이지+공략" width={500} height={400} alt="스테이지 공략" className="rounded-2xl shadow-2xl" />
-              </div>
-              <div className="md:w-1/2 space-y-6">
-                <h3 className="text-3xl font-bold mb-4 text-gray-800 dark:text-gray-100 flex items-center">
-                  <Gamepad className="mr-3 text-green-500" size={32} />
-                  챕터 2: 스테이지 공략
-                </h3>
-                <p className="text-xl text-gray-600 dark:text-gray-300">
-                  각 스테이지별 최적의 전략과 팁을 제공합니다. 난이도 높은 스테이지도 쉽게 클리어할 수 있습니다.
-                </p>
-                <Button className="mt-4 bg-gradient-to-r from-green-500 to-blue-500 text-white hover:from-green-600 hover:to-blue-600 transition-all duration-200">
-                  공략 보기 <ChevronRight className="ml-2 h-4 w-4" />
-                </Button>
-              </div>
-            </div>
-          </motion.div>
+          <ChapterSection
+            title="챕터 2: 적 캐릭터 도감"
+            description="모든 적 캐릭터의 정보를 상세히 알아보세요. 각 적의 특성, 약점, 그리고 대응 전략을 제공합니다."
+            icon={Skull}
+            image="적+캐릭터+도감"
+            color="from-red-400 to-orange-500"
+            items={[
+              "150+ 적 캐릭터 정보",
+              "적 유형별 대응 전략",
+              "보스 캐릭터 상세 가이드",
+              "적 출현 스테이지 정보"
+            ]}
+          />
 
-          <motion.div variants={itemVariants} className="relative">
-            <div className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-red-500 opacity-10 rounded-3xl"></div>
-            <div className="relative flex flex-col md:flex-row items-center gap-12 p-8 rounded-3xl overflow-hidden">
-              <div className="md:w-1/2">
-                <Image src="/placeholder.svg?height=400&width=500&text=아이템+관리" width={500} height={400} alt="아이템 관리" className="rounded-2xl shadow-2xl" />
-              </div>
-              <div className="md:w-1/2 space-y-6">
-                <h3 className="text-3xl font-bold mb-4 text-gray-800 dark:text-gray-100 flex items-center">
-                  <Backpack className="mr-3 text-yellow-500" size={32} />
-                  챕터 3: 아이템 관리
-                </h3>
-                <p className="text-xl text-gray-600 dark:text-gray-300">
-                  보유 중인 아이템을 효율적으로 관리하고 사용 전략을 세워보세요. 각 아이템의 효과와 최적의 사용 시기를 알려드립니다.
-                </p>
-                <Button className="mt-4 bg-gradient-to-r from-yellow-500 to-red-500 text-white hover:from-yellow-600 hover:to-red-600 transition-all duration-200">
-                  아이템 관리 <ChevronRight className="ml-2 h-4 w-4" />
-                </Button>
-              </div>
-            </div>
-          </motion.div>
+          <ChapterSection
+            title="챕터 3: 스테이지 공략"
+            description="각 스테이지별 최적의 전략과 팁을 제공합니다. 난이도 높은 스테이지도 쉽게 클리어할 수 있습니다."
+            icon={Gamepad}
+            image="스테이지+공략"
+            color="from-green-400 to-blue-500"
+            items={[
+              "모든 스테이지 상세 공략",
+              "추천 캐릭터 라인업",
+              "숨겨진 보상 정보",
+              "스테이지별 난이도 평가"
+            ]}
+          />
         </motion.div>
       </main>
 
