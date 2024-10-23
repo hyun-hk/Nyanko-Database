@@ -8,7 +8,8 @@ import { Button } from "@/app/components/ui/button"
 import { Input } from "@/app/components/ui/input"
 import { Label } from "@/app/components/ui/label"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/app/components/ui/card"
-import { Cat, ArrowLeft, Github, Twitter } from 'lucide-react'
+import { Cat, ArrowLeft, Github, Twitter, Sun, Moon } from 'lucide-react'
+import { useTheme } from 'next-themes'
 
 // Google 아이콘 컴포넌트 추가
 const GoogleIcon = ({ className }: { className?: string }) => (
@@ -23,6 +24,7 @@ const GoogleIcon = ({ className }: { className?: string }) => (
 export default function LoginPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const { theme, setTheme } = useTheme()
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -31,40 +33,33 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center p-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-purple-500 to-purple-700">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="w-full max-w-4xl flex rounded-lg shadow-lg overflow-hidden"
+        className="w-full max-w-md"
       >
-        <div className="w-1/2 bg-purple-600 p-12 hidden lg:flex flex-col justify-between">
-          <div>
-            <h2 className="text-4xl font-bold text-white mb-6">냥코 대전쟁 데이터베이스에 오신 것을 환영합니다!</h2>
-            <p className="text-purple-200 text-lg">로그인하여 게임 정보를 관리하고 더 많은 기능을 사용해보세요.</p>
-          </div>
-          <Image 
-            src="/placeholder.svg?height=300&width=400&text=냥코+캐릭터+이미지" 
-            width={400} 
-            height={300} 
-            alt="냥코 캐릭터" 
-            className="rounded-lg"
-          />
-        </div>
-        <Card className="w-full lg:w-1/2 max-w-md">
-          <CardHeader className="space-y-1">
-            <div className="flex items-center justify-between">
+        <Card className="w-full bg-white dark:bg-gray-800 shadow-xl">
+          <CardHeader className="space-y-1 relative">
+            <div className="flex items-center justify-between mb-4">
               <Link href="/" className="text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors duration-200">
                 <ArrowLeft size={24} />
               </Link>
-              <div className="flex items-center space-x-2">
-                <Cat className="w-6 h-6 text-purple-600" />
-                <CardTitle className="text-2xl font-bold">냥코 로그인</CardTitle>
-              </div>
+              <button
+                onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                className="text-gray-600 dark:text-gray-300 hover:text-purple-600 dark:hover:text-purple-400 transition-colors duration-200"
+              >
+                {theme === 'dark' ? <Sun size={24} /> : <Moon size={24} />}
+              </button>
             </div>
-            <CardDescription>
-              계정에 로그인하여 게임 정보를 관리하세요
-            </CardDescription>
+            <div className="flex flex-col items-center space-y-2">
+              <Cat className="w-12 h-12 text-purple-600 dark:text-purple-400" />
+              <CardTitle className="text-2xl font-bold text-center">냥코 로그인</CardTitle>
+              <CardDescription className="text-center text-gray-600 dark:text-gray-400">
+                계정에 로그인하여 게임 정보를 관리하세요
+              </CardDescription>
+            </div>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -77,6 +72,7 @@ export default function LoginPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required 
+                  className="bg-gray-50 dark:bg-gray-700 border-gray-300 dark:border-gray-600 focus:border-purple-500 focus:ring-purple-500"
                 />
               </div>
               <div className="space-y-2">
@@ -87,9 +83,10 @@ export default function LoginPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required 
+                  className="bg-gray-50 dark:bg-gray-700 border-gray-300 dark:border-gray-600 focus:border-purple-500 focus:ring-purple-500"
                 />
               </div>
-              <Button type="submit" className="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600 transition-all duration-200">
+              <Button type="submit" className="w-full bg-purple-600 hover:bg-purple-700 text-white transition-colors duration-200">
                 로그인
               </Button>
             </form>
@@ -99,7 +96,7 @@ export default function LoginPage() {
                   <span className="w-full border-t border-gray-300 dark:border-gray-600" />
                 </div>
                 <div className="relative flex justify-center text-xs uppercase">
-                  <span className="bg-card px-2 text-muted-foreground">또는</span>
+                  <span className="bg-white dark:bg-gray-800 px-2 text-gray-500 dark:text-gray-400">또는</span>
                 </div>
               </div>
               <div className="mt-6 space-y-2">
@@ -119,12 +116,12 @@ export default function LoginPage() {
             </div>
           </CardContent>
           <CardFooter className="flex flex-col space-y-2">
-            <Link href="/forgot-password" className="text-sm text-purple-600 hover:underline">
+            <Link href="/forgot-password" className="text-sm text-purple-600 dark:text-purple-400 hover:underline">
               비밀번호를 잊으셨나요?
             </Link>
             <div className="text-sm text-gray-600 dark:text-gray-400">
               계정이 없으신가요? 
-              <Link href="/signup" className="ml-1 text-purple-600 hover:underline">
+              <Link href="/signup" className="ml-1 text-purple-600 dark:text-purple-400 hover:underline">
                 회원가입
               </Link>
             </div>
